@@ -1,0 +1,24 @@
+{
+  "name": "@losi/examples",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runnable demos for Losi Context Bank — proof that context travels across models.",
+  "scripts": {
+    "demo:switch": "tsx model-switcher.ts",
+    "demo:onboarding": "tsx onboarding.ts",
+    "demo:switching-cost": "tsx switching-cost.ts",
+    "demo:all": "tsx model-switcher.ts && tsx onboarding.ts && tsx switching-cost.ts"
+  },
+  "dependencies": {
+    "@losi/core": "*",
+    "@losi/nexus": "*",
+    "@losi/openai": "*",
+    "@losi/anthropic": "*",
+    "@losi/gemini": "*",
+    "@losi/ollama": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.1"
+  }
+}

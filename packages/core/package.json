@@ -1,0 +1,50 @@
+{
+  "name": "@losi/core",
+  "version": "0.1.0",
+  "description": "Core context engine for Losi Context Bank — LLM adapter interface, context snapshots, memory and governance config. Portable context for any LLM.",
+  "license": "MIT",
+  "homepage": "https://losi.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marshmallow-studio/losi-context-bank.git",
+    "directory": "packages/core"
+  },
+  "keywords": [
+    "llm context",
+    "ai memory",
+    "context persistence",
+    "multi-llm",
+    "langchain alternative",
+    "llm switching",
+    "ai agent context",
+    "context bank"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

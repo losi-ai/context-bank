@@ -1,0 +1,54 @@
+{
+  "name": "@losi/gemini",
+  "version": "0.1.0",
+  "description": "Google Gemini adapter for Losi Context Bank. Give Gemini persistent business context and switch models without losing it.",
+  "license": "MIT",
+  "homepage": "https://losi.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marshmallow-studio/losi-context-bank.git",
+    "directory": "packages/gemini"
+  },
+  "keywords": [
+    "gemini",
+    "google ai",
+    "llm context",
+    "ai memory",
+    "multi-llm",
+    "llm switching",
+    "langchain alternative",
+    "context bank"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@losi/core": "^0.1.0"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.17.1"
+  },
+  "devDependencies": {
+    "@losi/core": "^0.1.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

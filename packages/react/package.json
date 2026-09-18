@@ -1,0 +1,52 @@
+{
+  "name": "@losi/react",
+  "version": "0.1.0",
+  "description": "React hooks and provider for Losi Context Bank — embed persistent LLM context, memory, and governance in any React app.",
+  "license": "MIT",
+  "homepage": "https://losi.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marshmallow-studio/losi-context-bank.git",
+    "directory": "packages/react"
+  },
+  "keywords": [
+    "react",
+    "llm context",
+    "ai memory",
+    "react hooks",
+    "multi-llm",
+    "context bank"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@losi/core": "^0.1.0",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@losi/core": "^0.1.0",
+    "@types/react": "^18.3.3",
+    "react": "^18.3.1",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
