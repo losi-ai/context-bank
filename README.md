@@ -29,7 +29,87 @@ key. After that, **never pass `workspaceId` again**. MCP and Context Bank imply
 it from the key (`GET /session`, `/graph`, `/spaces/*`, `/nexus/*`, `/skills`).
 See [Hosted](docs/hosted.md).
 
-## 30-second example
+## Connect context to *any* LLM (not only the SDK)
+
+Four ways to plug Losi workspace context into Claude, Cursor, ChatGPT, Codex,
+or your own agent — **without** shipping TypeScript:
+
+| Path | Use when |
+| --- | --- |
+| **[MCP](#1-mcp--claude-cursor-codex)** | The host supports Model Context Protocol |
+| **[REST API](#2-context-bank-rest-api)** | Anything that can `curl` / `fetch` |
+| **[Agent skill](#3-installable-skill)** | Cursor / Claude Code skill installs |
+| **[Copy-paste prompt](#4-one-shot-prompt)** | Web chats — paste and it connects if it can |
+
+Full guide: **[docs/connect.md](docs/connect.md)** · Product docs: https://losi.ai/docs/context-bank
+
+### 1. MCP — Claude, Cursor, Codex
+
+```json
+{
+  "mcpServers": {
+    "losi": {
+      "url": "https://losi.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer losi-YOUR_WORKSPACE_KEY"
+      }
+    }
+  }
+}
+```
+
+Tools are listed as `losiSpaces__…` (tasks, notes, files, …). Workspace comes
+from the key — no `workspaceId` to pass.
+
+```bash
+curl -sS https://losi.ai/api/mcp \
+  -H "Authorization: Bearer $LOSI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+### 2. Context Bank REST API
+
+Base: `https://losi.ai/api/v1/context-bank`
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| GET | `/session` | Workspace bound to the key |
+| GET | `/spaces/tasks` `/spaces/notes` … | Spaces |
+| GET | `/nexus/contacts` `/nexus/bookings` … | CRM |
+| GET | `/graph` | Knowledge graph |
+| GET/POST | `/skills` | List / save skills |
+| GET | `/soul` | Losi identity for the workspace |
+
+```bash
+curl -sS https://losi.ai/api/v1/context-bank/session \
+  -H "Authorization: Bearer $LOSI_API_KEY"
+```
+
+### 3. Installable skill
+
+Ship this folder into any skill-capable agent (Cursor, Claude Code, etc.):
+
+[`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKILL.md)
+
+```bash
+# example — copy into a project
+cp -R skills/connect-losi-context .cursor/skills/
+# or, when published on the skills registry:
+# npx skills add losi-ai/context-bank/skills/connect-losi-context
+```
+
+The skill tells the agent to prefer MCP, fall back to REST, verify `/session`,
+and never leak the API key.
+
+### 4. One-shot prompt
+
+Paste [`prompts/connect-losi-context.md`](prompts/connect-losi-context.md) into
+any chat model, swap in your key, and send. If the model can call HTTP/MCP it
+will connect itself; otherwise it returns the config/curl for you.
+
+---
 
 ```ts
 import { LosiContext, MemorySnapshotStore } from "@losi-ai/core";
@@ -163,7 +243,12 @@ if (!decision.allowed) throw new Error(decision.reason);
 gov.kill("support-bot"); // emergency stop — every future action is denied
 ```
 
-## MCP with data scopes
+## MCP with data scopes (SDK client)
+
+Use `@losi-ai/mcp` when **you** host or call MCP servers from app code (with
+access scopes). To connect **to Losi’s** hosted MCP from Claude/Cursor, see
+[Connect context to any LLM](#connect-context-to-any-llm--not-only-the-sdk)
+instead.
 
 ```ts
 import { MCPClient } from "@losi-ai/mcp";
@@ -199,6 +284,7 @@ The SDK is MIT. Live CRM, Spaces, graph, and skill persistence run on **[losi.ai
 
 - **Free SDK** — adapters, snapshots, local stores — everything in this repo without an account.
 - **Hosted** — same Losi workspace data the product uses; see [docs/hosted.md](docs/hosted.md).
+- **Any LLM** — MCP + REST + skill + prompt (no SDK required); see [docs/connect.md](docs/connect.md).
 - **Enterprise** — private deployment. [Talk to us](https://losi.ai).
 
 ## Roadmap
