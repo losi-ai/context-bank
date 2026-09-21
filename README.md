@@ -49,9 +49,13 @@ or your own agent — **without** shipping TypeScript:
 | **[MCP](#1-mcp--claude-cursor-codex)** | The host supports Model Context Protocol |
 | **[REST API](#2-context-bank-rest-api)** | Anything that can `curl` / `fetch` |
 | **[Agent skill](#3-installable-skill)** | Cursor / Claude Code skill installs |
-| **[Copy-paste prompt](#4-one-shot-prompt)** | Web chats — paste and it connects if it can |
+| **[Connect prompt](#4-connect-prompt)** | Web chats — paste the prompt only (key stays in vault/env) |
 
 Full guide: **[docs/connect.md](docs/connect.md)** · Product docs: https://losi.ai/docs/context-bank
+
+**Secrets:** store `LOSI_API_KEY` in the host vault or environment. **Never paste
+`losi-…` into a chat prompt.** Examples below use `$LOSI_API_KEY` /
+`${LOSI_API_KEY}` on purpose.
 
 ### 1. MCP — Claude, Cursor, Codex
 
@@ -61,15 +65,15 @@ Full guide: **[docs/connect.md](docs/connect.md)** · Product docs: https://losi
     "losi": {
       "url": "https://losi.ai/api/mcp",
       "headers": {
-        "Authorization": "Bearer losi-YOUR_WORKSPACE_KEY"
+        "Authorization": "Bearer ${LOSI_API_KEY}"
       }
     }
   }
 }
 ```
 
-Tools are listed as `losiSpaces__…` (tasks, notes, files, …). Workspace comes
-from the key — no `workspaceId` to pass.
+Set `LOSI_API_KEY` in the host’s secret/env UI first. Tools are listed as
+`losiSpaces__…`. Workspace comes from the key — no `workspaceId` to pass.
 
 ```bash
 curl -sS https://losi.ai/api/mcp \
@@ -110,14 +114,15 @@ npx skills add losi-ai/context-bank
 
 Source: [`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKILL.md)
 
-The skill tells the agent to prefer MCP, fall back to REST, verify `/session`,
-and never leak the API key. **Losi is free to get started.**
+The skill prefers vault/env for secrets, then MCP, then REST — and never asks
+you to paste a key into chat. **Losi is free to get started.**
 
-### 4. One-shot prompt
+### 4. Connect prompt
 
 Paste [`prompts/connect-losi-context.md`](prompts/connect-losi-context.md) into
-any chat model, swap in your key, and send. If the model can call HTTP/MCP it
-will connect itself; otherwise it returns the config/curl for you.
+any chat model **without** putting your key in the message. The prompt tells
+the agent to read `LOSI_API_KEY` from vault/env. If it cannot call tools, it
+returns MCP/curl templates that still use `$LOSI_API_KEY`.
 
 ---
 

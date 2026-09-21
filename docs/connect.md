@@ -8,14 +8,25 @@ You do **not** need the TypeScript SDK to use Losi context. Pick a path:
 
 | Path | Best for | Needs |
 | --- | --- | --- |
-| **MCP** | Claude Desktop, Cursor, Codex, other MCP clients | Workspace API key |
-| **REST API** | Any model/tool that can `fetch` / `curl` | Workspace API key |
+| **MCP** | Claude Desktop, Cursor, Codex, other MCP clients | Key in vault / env |
+| **REST API** | Any model/tool that can `fetch` / `curl` | Key in vault / env |
 | **Agent skill** | Cursor / Claude Code skill installs | This repo’s `SKILL.md` |
-| **Copy-paste prompt** | ChatGPT / Claude / Gemini web chats | Paste + key |
-| **SDK (`@losi-ai/*`)** | Apps you ship in Node/React | npm install |
+| **Connect prompt** | ChatGPT / Claude / Gemini web chats | Prompt only — **no key in chat** |
+| **SDK (`@losi-ai/*`)** | Apps you ship in Node/React | `process.env.LOSI_API_KEY` |
 
-Create a **workspace-scoped** key (free to start): [losi.ai](https://losi.ai) → Profile → API Access.  
-Format `losi-…`. The workspace is implied — no `workspaceId` in normal calls.
+## Secrets (read this)
+
+**Do not paste `losi-…` keys into chat prompts, tickets, or README examples that
+get copied into LLMs.**
+
+1. Store the key in the host **vault** / secret manager when available (Cursor
+   Private vault, Claude project secrets, 1Password, OS keychain, etc.).
+2. Otherwise use the environment variable **`LOSI_API_KEY`**.
+3. Wire MCP / CLI to `${LOSI_API_KEY}` / `$LOSI_API_KEY` — never a literal key.
+
+Create a **workspace-scoped** key (free to start): [losi.ai](https://losi.ai) →
+Profile → API Access. Format `losi-…`. The workspace is implied — no
+`workspaceId` in normal calls.
 
 Public product docs: https://losi.ai/docs/context-bank
 
@@ -24,7 +35,7 @@ Public product docs: https://losi.ai/docs/context-bank
 ## 1. MCP (recommended for agents)
 
 **URL:** `https://losi.ai/api/mcp`  
-**Auth:** `Authorization: Bearer losi-…`
+**Auth:** `Authorization: Bearer` + value from vault/env.
 
 ### Cursor / Claude Desktop
 
@@ -34,15 +45,15 @@ Public product docs: https://losi.ai/docs/context-bank
     "losi": {
       "url": "https://losi.ai/api/mcp",
       "headers": {
-        "Authorization": "Bearer losi-YOUR_KEY"
+        "Authorization": "Bearer ${LOSI_API_KEY}"
       }
     }
   }
 }
 ```
 
-Then ask the agent to list tools and use `losiSpaces__*` actions (tasks, notes,
-files, etc.). The server injects the key’s workspace automatically.
+Set `LOSI_API_KEY` in the host’s secret/env UI first. Tools are listed as
+`losiSpaces__…`. Workspace comes from the key.
 
 ### Raw JSON-RPC sketch
 
@@ -69,24 +80,19 @@ curl -sS https://losi.ai/api/mcp \
 | GET/POST | `/skills` | List / save skills |
 | GET/PATCH/DELETE | `/skills/{id}` | Manage a skill |
 | POST | `/skills/{id}/run` | Run a skill |
-| GET | `/soul` | Losi identity / soul for the workspace |
+| GET | `/soul` | Losi identity for the workspace |
 
 ```bash
-export LOSI_API_KEY=losi-…
+# Key from env / vault — not from the chat transcript
 curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 curl -sS 'https://losi.ai/api/v1/context-bank/spaces/tasks?limit=10' \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-Same payloads the `@losi-ai/spaces` / `@losi-ai/nexus` / `@losi-ai/skills`
-packages consume — you can drive them from Python, Go, shell, or a custom agent.
-
 ---
 
 ## 3. Installable agent skill
-
-Already published — install from the skills registry:
 
 ```bash
 npx skills add losi-ai/context-bank --skill connect-losi-context
@@ -95,18 +101,19 @@ npx skills add losi-ai/context-bank --skill connect-losi-context
 - Page: https://skills.sh/losi-ai/context-bank/connect-losi-context  
 - Source: [`skills/connect-losi-context/SKILL.md`](../skills/connect-losi-context/SKILL.md)
 
-The skill teaches the agent to prefer MCP, fall back to REST, verify `/session`,
-and never leak the API key. Losi is free to get started.
+The skill prefers vault/env, then MCP, then REST — and never asks you to paste
+the key into chat.
 
 ---
 
-## 4. One-shot prompt (any chat LLM)
+## 4. Connect prompt (any chat LLM)
 
-Open [`prompts/connect-losi-context.md`](../prompts/connect-losi-context.md),
-paste into the chat, replace `losi-YOUR_KEY`, and send.
+Open [`prompts/connect-losi-context.md`](../prompts/connect-losi-context.md) and
+paste **only the prompt** into the chat. The prompt instructs the model to read
+`LOSI_API_KEY` from vault/env — **not** from the message.
 
-If the model can call tools/HTTP, it will connect itself. If not, it should
-return the MCP JSON or curl commands for you to run.
+If the model can call tools/HTTP, it connects itself. If not, it should return
+MCP JSON / curl using `$LOSI_API_KEY` placeholders.
 
 ---
 
@@ -116,4 +123,5 @@ return the MCP JSON or curl commands for you to run.
 npm install @losi-ai/core @losi-ai/spaces @losi-ai/nexus @losi-ai/skills
 ```
 
-See the [README](../README.md) and [hosted.md](./hosted.md).
+Pass `apiKey: process.env.LOSI_API_KEY` (or your vault bridge) — see the
+[README](../README.md) and [hosted.md](./hosted.md).

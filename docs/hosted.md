@@ -20,13 +20,14 @@ const spaces = new SpacesBinding({ apiKey: process.env.LOSI_API_KEY, tasks: true
 const skills = new LosiSkillStore({ apiKey: process.env.LOSI_API_KEY! });
 ```
 
-Auth is a bearer token: `Authorization: Bearer losi-...`.
+Auth is a bearer token from vault/env (`Authorization: Bearer` + `LOSI_API_KEY`).
+Do not paste keys into chat transcripts.
 
 Resolve the bound workspace explicitly if needed:
 
 ```http
 GET /api/v1/context-bank/session
-Authorization: Bearer losi-...
+Authorization: Bearer <LOSI_API_KEY from vault/env>
 ```
 
 Legacy user-scoped keys (no `workspace_id` on the key) still require a path

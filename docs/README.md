@@ -9,7 +9,7 @@ same data as the product, not a parallel invention.
 ## Start here
 
 - [Quickstart](./quickstart.md) — snapshot + switch models in minutes.
-- [Connect any LLM](./connect.md) — MCP, REST API, installable skill, copy-paste prompt (no SDK required).
+- [Connect any LLM](./connect.md) — MCP, REST API, installable skill, connect prompt (vault/env for secrets; no SDK required).
 - [Concepts](./concepts.md) — adapters, snapshots, bindings, governance.
 - [Hosted platform](./hosted.md) — free vs live workspace data.
 
