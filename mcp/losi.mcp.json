@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "losi": {
+      "url": "https://losi.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:LOSI_API_KEY}"
+      }
+    }
+  }
+}

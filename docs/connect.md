@@ -92,13 +92,25 @@ curl -sS 'https://losi.ai/api/v1/context-bank/spaces/tasks?limit=10' \
 
 ---
 
-## 3. Installable agent skills
+## 3. Installable agent skills (+ MCP bundle)
+
+skills.sh installs **skills** (procedural agent knowledge). MCP registration is
+a separate host config. Prefer the **bundle installer** so both land together:
 
 ```bash
-npx skills add losi-ai/context-bank --skill connect-losi-context
-npx skills add losi-ai/context-bank --skill use-losi-context
-npx skills add losi-ai/context-bank --skill store-losi-context
-npx skills add losi-ai/context-bank --skill migrate-to-losi-context
+curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
+```
+
+What it does:
+
+1. `npx skills add losi-ai/context-bank` (all four skills below)
+2. Merges [`mcp/losi.mcp.json`](../mcp/losi.mcp.json) into `.cursor/mcp.json`
+   and `~/.cursor/mcp.json` (and Claude Code when `claude` is on PATH)
+
+Skills-only (no MCP write):
+
+```bash
+npx skills add losi-ai/context-bank --all
 ```
 
 | Skill | Purpose |

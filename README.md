@@ -101,18 +101,18 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-### 3. Installable skills
+### 3. Installable skills (+ MCP bundle)
 
-On the open skills registry
-([skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)):
+skills.sh does **not** register MCP servers by itself. One command for both:
 
 ```bash
-npx skills add losi-ai/context-bank --skill connect-losi-context
-npx skills add losi-ai/context-bank --skill use-losi-context
-npx skills add losi-ai/context-bank --skill store-losi-context
-npx skills add losi-ai/context-bank --skill migrate-to-losi-context
-# or install the whole pack:
-npx skills add losi-ai/context-bank
+curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
+```
+
+Skills-only ([skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)):
+
+```bash
+npx skills add losi-ai/context-bank --all
 ```
 
 | Skill | Purpose |
@@ -122,7 +122,8 @@ npx skills add losi-ai/context-bank
 | [`store-losi-context`](skills/store-losi-context/SKILL.md) | Autonomously write durable facts into the bank |
 | [`migrate-to-losi-context`](skills/migrate-to-losi-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
 
-All prefer vault/env for secrets — never paste a key into chat. **Losi is free to get started.**
+MCP template: [`mcp/losi.mcp.json`](mcp/losi.mcp.json). All prefer vault/env for
+secrets — never paste a key into chat. **Losi is free to get started.**
 
 ### 4. Copy-paste prompt
 

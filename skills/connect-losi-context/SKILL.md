@@ -115,13 +115,23 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
    in losi.ai settings and store it in the host vault — do not collect the key
    in chat.
 
-## Install
+## Install (skills + MCP together)
+
+`npx skills add` installs **skills only** — it does not register MCP servers.
+Use the bundle installer when you want both:
 
 ```bash
-npx skills add losi-ai/context-bank --skill connect-losi-context
-npx skills add losi-ai/context-bank --skill use-losi-context
-npx skills add losi-ai/context-bank --skill store-losi-context
-npx skills add losi-ai/context-bank --skill migrate-to-losi-context
+curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
+```
+
+That installs all four skills and merges `losi` into `.cursor/mcp.json` /
+`~/.cursor/mcp.json` (and Claude Code when available). Template only:
+[`mcp/losi.mcp.json`](https://github.com/losi-ai/context-bank/blob/main/mcp/losi.mcp.json).
+
+Skills-only:
+
+```bash
+npx skills add losi-ai/context-bank --all
 ```
 
 Or the pack page: https://www.skills.sh/losi-ai/context-bank/connect-losi-context
