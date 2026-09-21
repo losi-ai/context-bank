@@ -38,12 +38,25 @@ Resolve the key in this order:
 
 Never print, log, or commit the full key.
 
-## Preferred: Losi MCP
+## Preferred: Losi MCP (any MCP-capable host)
 
 **Endpoint:** `https://losi.ai/api/mcp`  
 (also `https://www.losi.one/api/mcp`)
 
-**Auth:** `Authorization: Bearer` + value from vault/env (`LOSI_API_KEY`).
+**Auth:** `Authorization: Bearer` + vault/env (`LOSI_API_KEY`).
+
+Works wherever the host can add a **remote HTTPS MCP** connector — Claude
+(Desktop / Code / Connectors), ChatGPT Developer Mode apps/connectors, Cursor,
+Codex, Gemini CLI / Enterprise, Windsurf, etc. Same URL everywhere. Consumer
+Gemini web/app usually has no custom MCP — use REST or the copy-paste prompt.
+
+| Host | Add as |
+| --- | --- |
+| Cursor | `.cursor/mcp.json` or Settings → MCP |
+| Claude | Connectors / `mcpServers` JSON |
+| ChatGPT | Developer mode → Apps → connector URL |
+| Gemini CLI | `httpUrl` in `~/.gemini/settings.json` |
+| Others | Remote MCP URL + Bearer header |
 
 ### Cursor / Claude Desktop style config
 
@@ -55,7 +68,7 @@ Use env substitution — do not hard-code the secret in files you paste into cha
     "losi": {
       "url": "https://losi.ai/api/mcp",
       "headers": {
-        "Authorization": "Bearer ${LOSI_API_KEY}"
+        "Authorization": "Bearer ${env:LOSI_API_KEY}"
       }
     }
   }

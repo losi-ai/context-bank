@@ -35,9 +35,25 @@ Public product docs: https://losi.ai/docs/context-bank
 ## 1. MCP (recommended for agents)
 
 **URL:** `https://losi.ai/api/mcp`  
-**Auth:** `Authorization: Bearer` + value from vault/env.
+**Auth:** `Authorization: Bearer` + workspace-scoped `losi-…` key (vault/env).
 
-### Cursor / Claude Desktop
+Any host that can attach a **remote HTTPS MCP server** can use Losi. One
+endpoint — Claude, ChatGPT (Developer Mode connectors), Cursor, Codex, Gemini
+CLI / Enterprise, Windsurf, etc. Consumer Gemini web/app usually cannot; use
+CLI/Enterprise or REST/skills instead.
+
+| Host | How to add Losi |
+| --- | --- |
+| **Cursor** | Bundle installer, or paste into `.cursor/mcp.json` / Settings → MCP |
+| **Claude Desktop / Claude.ai** | Settings → Connectors (or `claude_desktop_config.json` `mcpServers`) |
+| **Claude Code** | `claude mcp add` / config JSON with the URL + Bearer header |
+| **ChatGPT** | Settings → Apps → Developer mode → add connector/app with URL `https://losi.ai/api/mcp` + API key auth when prompted |
+| **Gemini CLI** | `~/.gemini/settings.json` → `mcpServers.losi.httpUrl` (+ headers) |
+| **Gemini Enterprise** | Admin adds remote MCP connector in Google Cloud (same URL) |
+| **Codex / other MCP clients** | Same remote URL + Bearer header |
+| **Web Gemini / plain chat UIs without MCP** | Use [REST](#2-context-bank-rest-api) or the [copy-paste prompt](#4-copy-paste-prompt) |
+
+### Cursor / Claude Desktop style config
 
 ```json
 {
@@ -45,15 +61,33 @@ Public product docs: https://losi.ai/docs/context-bank
     "losi": {
       "url": "https://losi.ai/api/mcp",
       "headers": {
-        "Authorization": "Bearer ${LOSI_API_KEY}"
+        "Authorization": "Bearer ${env:LOSI_API_KEY}"
       }
     }
   }
 }
 ```
 
-Set `LOSI_API_KEY` in the host’s secret/env UI first. Tools are listed as
-`losiSpaces__…`. Workspace comes from the key.
+Some hosts use `httpUrl` instead of `url`, or a UI field for “Connector URL”
+plus a separate API-key / Authorization field — paste the same endpoint and
+Bearer token. Never put the raw `losi-…` key in a skill prompt or shared doc.
+
+Set `LOSI_API_KEY` in the host’s secret/env UI first. Tools appear as
+`losiSpaces__…`, `losiNexus__run`, `losiContext__*`, `losiMemory__*`.
+Workspace comes from the key.
+
+### Skills vs MCP
+
+- **MCP** = live tools against your workspace (any MCP-capable host).
+- **skills.sh skills** = procedural playbooks (`connect` / `use` / `store` /
+  `migrate`) — install where the agent supports skills (Cursor, Claude Code,
+  Codex, …). They tell the model *how* to use MCP; they do not replace MCP.
+
+Bundle both where you can:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
+```
 
 ### Raw JSON-RPC sketch
 
