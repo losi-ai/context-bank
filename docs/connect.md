@@ -92,17 +92,23 @@ curl -sS 'https://losi.ai/api/v1/context-bank/spaces/tasks?limit=10' \
 
 ---
 
-## 3. Installable agent skill
+## 3. Installable agent skills
 
 ```bash
 npx skills add losi-ai/context-bank --skill connect-losi-context
+npx skills add losi-ai/context-bank --skill use-losi-context
+npx skills add losi-ai/context-bank --skill store-losi-context
+npx skills add losi-ai/context-bank --skill migrate-to-losi-context
 ```
 
-- Page: https://skills.sh/losi-ai/context-bank/connect-losi-context  
-- Source: [`skills/connect-losi-context/SKILL.md`](../skills/connect-losi-context/SKILL.md)
+| Skill | Purpose |
+| --- | --- |
+| [`connect-losi-context`](https://skills.sh/losi-ai/context-bank/connect-losi-context) | Wire MCP/REST + vault key; verify session |
+| [`use-losi-context`](https://skills.sh/losi-ai/context-bank/use-losi-context) | Autonomously read Spaces / Nexus / graph / skills / soul / memories |
+| [`store-losi-context`](https://skills.sh/losi-ai/context-bank/store-losi-context) | Autonomously write durable facts back into the bank |
+| [`migrate-to-losi-context`](https://skills.sh/losi-ai/context-bank/migrate-to-losi-context) | On first use, ask whether to migrate local notes/prefs into Losi |
 
-The skill prefers vault/env, then MCP, then REST — and never asks you to paste
-the key into chat.
+All prefer vault/env for `LOSI_API_KEY` — never paste the key into chat.
 
 ---
 

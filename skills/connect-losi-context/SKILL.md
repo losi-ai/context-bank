@@ -2,16 +2,17 @@
 name: connect-losi-context
 description: >-
   Connect any LLM or agent to the user's Losi workspace context (CRM, Spaces
-  tasks/notes, knowledge graph, skills, soul) via Losi MCP or the Context Bank
-  REST API. Use when the user wants Losi context in Claude, Cursor, ChatGPT,
-  Codex, or another tool without writing SDK code. Prefer vault/env for the
-  API key — never ask them to paste losi-… into chat.
+  tasks/notes, knowledge graph, skills, soul, memories) via Losi MCP or the
+  Context Bank REST API. Use when the user wants Losi context in Claude, Cursor,
+  ChatGPT, Codex, or another tool without writing SDK code. Prefer vault/env for
+  the API key — never ask them to paste losi-… into chat.
 ---
 
 # Connect Losi Context
 
 Give the current agent access to the user's **real Losi workspace** (same data
-as losi.ai): Spaces, Nexus CRM, knowledge graph, skills, and soul/identity.
+as losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul/identity, and
+memories.
 
 ## Prerequisites
 
@@ -61,14 +62,20 @@ Use env substitution — do not hard-code the secret in files you paste into cha
 }
 ```
 
-After connecting, call `tools/list`, then use `losiSpaces__*` tools. Workspace
-is injected from the key.
+After connecting, call `tools/list`. Typical families (permission-dependent):
+
+- `losiSpaces__*` — Spaces + Space memories
+- `losiNexus__run` — Nexus CRM (needs Nexus subscription on the key)
+- `losiContext__*` — session, graph, soul, skills list
+- `losiMemory__*` — personal + workspace memories
+
+Workspace is injected from the key.
 
 ### MCP handshake (if configuring manually)
 
 1. `initialize`
 2. `tools/list`
-3. `tools/call` with `{ "name": "losiSpaces__…", "arguments": { … } }`
+3. `tools/call` with `{ "name": "…", "arguments": { … } }`
 
 Do not invent tool names — only call tools returned by `tools/list`.
 
@@ -82,10 +89,12 @@ Do not invent tool names — only call tools returned by `tools/list`.
 | GET | `/session` | Confirm key → workspace binding |
 | GET | `/spaces/tasks?limit=25` | Tasks |
 | GET | `/spaces/notes?limit=25` | Notes |
-| GET | `/nexus/contacts?limit=25` | CRM contacts |
+| GET | `/nexus/contacts?limit=25` | CRM (needs `nexus:read` + Nexus plan) |
 | GET | `/graph?limit=25` | Knowledge graph nodes |
 | GET | `/skills` | Saved executable skills |
-| GET | `/soul` | Losi identity / soul.md for the workspace |
+| GET | `/soul` | Losi identity / soul.md |
+| GET | `/memories/personal` | Personal memories |
+| GET | `/memories/workspace` | Workspace memories |
 
 Example (shell — secret from env, not the prompt):
 
@@ -94,16 +103,28 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-## How to behave once connected
+## After connect — stay autonomous
 
 1. **Verify** with `/session` or MCP `tools/list` before claiming access.
-2. **Use live data** for answers about the user's CRM, tasks, notes, or graph.
-3. **Never print the full API key** in replies, commits, or logs.
-4. If auth fails (401/403), guide them to create/rotate a workspace-scoped key
+2. Run **`migrate-to-losi-context`** once (ask whether to migrate existing
+   notes/prefs into the context engine).
+3. Operate with **`use-losi-context`**; persist durable facts with
+   **`store-losi-context`**.
+4. **Never print the full API key**.
+5. If auth fails (401/403), guide them to create/rotate a workspace-scoped key
    in losi.ai settings and store it in the host vault — do not collect the key
    in chat.
-5. Optional: install `@losi-ai/*` from npm only when they want code integration;
-   MCP/REST are enough for chat agents.
+
+## Install
+
+```bash
+npx skills add losi-ai/context-bank --skill connect-losi-context
+npx skills add losi-ai/context-bank --skill use-losi-context
+npx skills add losi-ai/context-bank --skill store-losi-context
+npx skills add losi-ai/context-bank --skill migrate-to-losi-context
+```
+
+Or the pack page: https://www.skills.sh/losi-ai/context-bank/connect-losi-context
 
 ## Docs
 

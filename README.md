@@ -48,7 +48,7 @@ or your own agent — **without** shipping TypeScript:
 | --- | --- |
 | **[MCP](#1-mcp--claude-cursor-codex)** | The host supports Model Context Protocol |
 | **[REST API](#2-context-bank-rest-api)** | Anything that can `curl` / `fetch` |
-| **[Agent skill](#3-installable-skill)** | Cursor / Claude Code skill installs |
+| **[Agent skills](#3-installable-skills)** | Cursor / Claude Code skill installs |
 | **[Copy-paste prompt](#4-copy-paste-prompt)** | Web chats — copy the prompt in; keep the key in vault/env |
 
 Full guide: **[docs/connect.md](docs/connect.md)** · Product docs: https://losi.ai/docs/context-bank
@@ -101,21 +101,28 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-### 3. Installable skill
+### 3. Installable skills
 
-Already on the open skills registry
-([skills.sh/losi-ai/context-bank/connect-losi-context](https://skills.sh/losi-ai/context-bank/connect-losi-context)):
+On the open skills registry
+([skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)):
 
 ```bash
 npx skills add losi-ai/context-bank --skill connect-losi-context
+npx skills add losi-ai/context-bank --skill use-losi-context
+npx skills add losi-ai/context-bank --skill store-losi-context
+npx skills add losi-ai/context-bank --skill migrate-to-losi-context
 # or install the whole pack:
 npx skills add losi-ai/context-bank
 ```
 
-Source: [`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKILL.md)
+| Skill | Purpose |
+| --- | --- |
+| [`connect-losi-context`](skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key |
+| [`use-losi-context`](skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / skills / soul / memories |
+| [`store-losi-context`](skills/store-losi-context/SKILL.md) | Autonomously write durable facts into the bank |
+| [`migrate-to-losi-context`](skills/migrate-to-losi-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
 
-The skill prefers vault/env for secrets, then MCP, then REST — and never asks
-you to paste a key into chat. **Losi is free to get started.**
+All prefer vault/env for secrets — never paste a key into chat. **Losi is free to get started.**
 
 ### 4. Copy-paste prompt
 
