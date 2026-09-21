@@ -1,5 +1,5 @@
 {
-  "name": "@losi/react",
+  "name": "@losi-ai/react",
   "version": "0.1.0",
   "description": "React hooks and provider for Losi Context Bank — embed persistent LLM context, memory, and governance in any React app.",
   "license": "MIT",
@@ -36,11 +36,11 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "react": ">=18"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "@types/react": "^18.3.3",
     "react": "^18.3.1",
     "tsup": "^8.2.4",

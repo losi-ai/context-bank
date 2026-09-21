@@ -1,5 +1,5 @@
 {
-  "name": "@losi/core",
+  "name": "@losi-ai/core",
   "version": "0.1.0",
   "description": "Core context engine for Losi Context Bank — LLM adapter interface, context snapshots, memory and governance config. Portable context for any LLM.",
   "license": "MIT",

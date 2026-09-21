@@ -1,7 +1,7 @@
 /**
- * `@losi/openai` — OpenAI adapter for Losi Context Bank.
+ * `@losi-ai/openai` — OpenAI adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `openai` SDK. Supports chat completions, function/tool calling, and
  * streaming.
  *
@@ -16,11 +16,11 @@ import type {
   LLMAdapter,
   Message,
   ToolCall,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default OpenAI model used when none is specified. */
-export const DEFAULT_OPENAI_MODEL = "gpt-4o";
+export const DEFAULT_OPENAI_MODEL = "gpt-5.6-sol";
 
 /** Options for constructing an {@link OpenAIAdapter}. */
 export interface OpenAIAdapterOptions {
@@ -62,7 +62,7 @@ function parseArguments(raw: string): Record<string, unknown> {
  *
  * @example
  * ```ts
- * import { OpenAIAdapter } from "@losi/openai";
+ * import { OpenAIAdapter } from "@losi-ai/openai";
  * const adapter = new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * console.log(res.content);

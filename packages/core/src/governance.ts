@@ -4,7 +4,7 @@
  * Governance is not optional in Losi Context Bank — every context access and
  * tool call flows through {@link GovernanceEngine.enforce}. The in-memory
  * engine here is fully functional; persistent audit storage stubs out to the
- * Losi platform API (see `@losi/governance`).
+ * Losi platform API (see `@losi-ai/governance`).
  *
  * @packageDocumentation
  */
@@ -71,7 +71,7 @@ interface AgentState {
  *
  * Tracks spend and request rate per agent and evaluates each action against
  * the configured policy. Emits audit entries that a persistence layer (e.g.
- * `@losi/governance` backed by the Losi API) can flush.
+ * `@losi-ai/governance` backed by the Losi API) can flush.
  *
  * @example
  * ```ts

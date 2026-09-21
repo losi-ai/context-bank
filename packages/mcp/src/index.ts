@@ -1,5 +1,5 @@
 /**
- * `@losi/mcp` — Model Context Protocol client adapter with governance.
+ * `@losi-ai/mcp` — Model Context Protocol client adapter with governance.
  *
  * Connects to an MCP server over JSON-RPC, lists tools, and calls them — but
  * every connection carries `accessScopes` (what the tool CAN see) and
@@ -13,8 +13,8 @@
  * @packageDocumentation
  */
 
-import type { DataScope, ToolDefinition, ToolCall } from "@losi/core";
-import { ScopeError, LosiError } from "@losi/core";
+import type { DataScope, ToolDefinition, ToolCall } from "@losi-ai/core";
+import { ScopeError, LosiError } from "@losi-ai/core";
 
 /** Configuration for a single MCP tool connection. */
 export interface MCPConnectionConfig {

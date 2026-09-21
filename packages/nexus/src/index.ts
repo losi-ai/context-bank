@@ -1,5 +1,5 @@
 /**
- * `@losi/nexus` — business operations context for LLMs.
+ * `@losi-ai/nexus` — business operations context for LLMs.
  *
  * Nexus binds CRM, bookings, and conversation context into a
  * {@link ContextSnapshot} so any model has full business awareness. There are
@@ -16,8 +16,8 @@
  * @packageDocumentation
  */
 
-import type { ContextBinding, ContextSection, DataScope, KnowledgeGraph } from "@losi/core";
-import { createGraph, addNode, addEdge } from "@losi/core";
+import type { ContextBinding, ContextSection, DataScope, KnowledgeGraph } from "@losi-ai/core";
+import { createGraph, addNode, addEdge } from "@losi-ai/core";
 import { NexusApiClient } from "./api.js";
 import type { LosiConnection } from "./api.js";
 

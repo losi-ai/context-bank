@@ -1,16 +1,16 @@
-# @losi/ollama
+# @losi-ai/ollama
 
 Local [Ollama](https://ollama.com) adapter for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Give your local models persistent business context, then switch models without losing it — no cloud, no API key.
 
 ```bash
-npm install @losi/core @losi/ollama ollama
+npm install @losi-ai/core @losi-ai/ollama ollama
 ```
 
 ## Example
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { OllamaAdapter } from "@losi/ollama";
+import { LosiContext } from "@losi-ai/core";
+import { OllamaAdapter } from "@losi-ai/ollama";
 
 const ctx = new LosiContext({
   adapter: new OllamaAdapter({ model: "llama3.2" }),

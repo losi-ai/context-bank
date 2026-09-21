@@ -1,7 +1,7 @@
 /**
- * `@losi/anthropic` — Anthropic Claude adapter for Losi Context Bank.
+ * `@losi-ai/anthropic` — Anthropic Claude adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `@anthropic-ai/sdk`. Supports messages, tool use, and streaming.
  *
  * @packageDocumentation
@@ -15,11 +15,11 @@ import type {
   LLMAdapter,
   Message,
   ToolCall,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default Claude model used when none is specified. */
-export const DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
+export const DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5";
 
 /** Options for constructing an {@link AnthropicAdapter}. */
 export interface AnthropicAdapterOptions {
@@ -60,7 +60,7 @@ function extractSystem(messages: Message[], override?: string): string | undefin
  *
  * @example
  * ```ts
- * import { AnthropicAdapter } from "@losi/anthropic";
+ * import { AnthropicAdapter } from "@losi-ai/anthropic";
  * const adapter = new AnthropicAdapter({ apiKey: process.env.ANTHROPIC_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * ```

@@ -2,42 +2,51 @@
 
 **Context infrastructure for LLMs. Switch models freely. Your context stays.**
 
-Every LLM vendor wants to own your context. Losi Context Bank keeps it yours — portable, persistent, and governable across GPT, Claude, Gemini, and any model you plug in.
+Day one: keep a snapshot of what the model knows, swap GPT ↔ Claude ↔ Gemini, and nothing resets. Everything else (CRM, graph, skills, governance) is opt-in.
 
 ```bash
-npm install @losi/core @losi/openai @losi/anthropic
+npm install @losi-ai/core @losi-ai/openai @losi-ai/ollama
 ```
+
+## Free vs hosted (honest)
+
+| | No Losi account | Workspace-scoped `LOSI_API_KEY` |
+| --- | --- | --- |
+| Adapters + `LosiContext` + snapshots | ✅ | ✅ |
+| Local / your own `SnapshotStore` | ✅ | ✅ |
+| Live CRM / Spaces / graph from Losi | ❌ | ✅ |
+| Save/run skills on Losi (`workspace_skills`) | ❌ | ✅ |
+| Governance audit ingest | local only | ✅ hosted sink |
+
+Prefer a **workspace-scoped** API key — pick the workspace when you create the
+key. After that, **never pass `workspaceId` again**. MCP and Context Bank imply
+it from the key (`GET /session`, `/graph`, `/spaces/*`, `/nexus/*`, `/skills`).
+See [Hosted](docs/hosted.md).
 
 ## 30-second example
 
-Give a model your business context, then swap the model without losing any of it:
-
 ```ts
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { AnthropicAdapter } from "@losi/anthropic";
+import { LosiContext, MemorySnapshotStore } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { AnthropicAdapter } from "@losi-ai/anthropic";
 
 const ctx = new LosiContext({
   adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),
-  memory: { crm: true, bookings: true },
+  store: new MemorySnapshotStore(),
+  persistKey: "demo",
 });
 
-// Ask GPT-4o — context is injected automatically.
-const a = await ctx.complete("What meetings do I have tomorrow?");
+await ctx.remember("User prefers short answers.");
+const a = await ctx.complete("Draft a one-line status update.");
 
-// Switch to Claude. The context snapshot persists — nothing is re-fetched or lost.
 ctx.switchAdapter(new AnthropicAdapter({ apiKey: process.env.ANTHROPIC_API_KEY! }));
-const b = await ctx.complete("Summarize those same meetings in one line.");
-
-console.log(ctx.provider); // "anthropic" — but the context never changed.
+const b = await ctx.complete("Say that again even shorter.");
+// Snapshot (and remember()) survived the switch.
 ```
 
-That's the whole idea: **context belongs to the platform, not the model.**
+That's the whole day-1 idea: **context belongs to you, not the model.**
 
 ## Try the demos (real models)
-
-Three runnable demos prove the promise against **real models** through the real
-adapters — no mocks. Provide a cloud key or run Ollama locally (keyless):
 
 ```bash
 npm install
@@ -45,96 +54,65 @@ export OPENAI_API_KEY=sk-...   # or ANTHROPIC_API_KEY / GEMINI_API_KEY, or `olla
 npm run demos
 ```
 
-- **Model Switcher** — GPT → Claude → Gemini, all pull the same context.
-- **Onboarding** — a fresh session (even a different model) restores full context on day one.
-- **Switching Cost** — CRM + bookings survive a model/tool switch as a knowledge graph.
+- **Model Switcher** — GPT → Claude → Gemini, same context.
+- **Onboarding** — restore a snapshot on a fresh session.
+- **Switching Cost** — CRM + bookings as a knowledge graph (needs bindings / hosted data).
 
-Each demo preflights the model and tells you exactly how to configure one if
-none is reachable. See [examples/](examples/README.md).
+See [examples/](examples/README.md).
 
-## Relationships, not just facts
+## Going further (opt-in)
 
-Losi context is a **knowledge graph** — entities and the typed relationships
-between them, with optional bi-temporal validity — not a flat list. The model
-sees `Ada Lovelace —booked→ Demo call`, and stale relationships are filtered
-out by time.
+Don't start here. When you need them:
 
-```ts
-import { createGraph, addNode, addEdge, supersede, queryValidRelations } from "@losi/core";
+- **Live Losi data** — [`@losi-ai/nexus`](packages/nexus) (CRM) and [`@losi-ai/spaces`](packages/spaces) (tasks/notes). Same data as the Losi app when an API key is attached.
+- **Knowledge graph** — Losi's real graph via hosted `/graph`, or a local portable graph in `@losi-ai/core`. Guide: [knowledge-graph.md](docs/guides/knowledge-graph.md).
+- **Skills (executable procedures)** — `@losi-ai/skills` saves/runs multi-step tool workflows into Losi `workspace_skills`. (GitHub `SKILL.md` installs in the Losi app are a different surface: Integrations → Install skill.)
+- **Governance** — `@losi-ai/governance` spend caps, scopes, kill switch, audit.
 
-const g = createGraph();
-addNode(g, { id: "u", type: "user", label: "User" });
-addNode(g, { id: "adidas", type: "brand", label: "Adidas" });
-addNode(g, { id: "puma", type: "brand", label: "Puma" });
-addEdge(g, { from: "u", to: "adidas", type: "prefers", validAt: "2026-01-01T00:00:00Z" });
-
-// Preference changed — supersede instead of overwrite. History stays queryable.
-supersede(g, { from: "u", to: "adidas", type: "prefers" },
-             { from: "u", to: "puma", type: "prefers" }, "2026-06-01T00:00:00Z");
-
-queryValidRelations(g, "2026-09-01T00:00:00Z"); // prefers Puma (current)
-queryValidRelations(g, "2026-02-01T00:00:00Z"); // prefers Adidas (historical)
-```
-
-Unlike memory tools that infer a graph from chat logs, Losi builds it
-**top-down from real business objects** (CRM, bookings, workspace) — so the
-relations are ground truth. Full guide: [docs/guides/knowledge-graph.md](docs/guides/knowledge-graph.md).
-
-## Why this exists
-
-LLM APIs are stateless. Every vendor's "memory" feature locks your context inside their product — switch models and you start from zero. That's fine for a chatbot demo. It's a dead end for real software that needs durable business context: your CRM, your bookings, your workspace, your team's knowledge.
-
-Losi Context Bank makes context a first-class, portable layer:
-
-- **Persistent** — snapshots survive across sessions and model switches.
-- **Portable** — one context, any model. Adapters are thin translators.
-- **Relational** — a real knowledge graph with bi-temporal validity, not flat facts.
-- **Governable** — spend caps, rate limits, blocked actions, data scopes, kill switch, audit log — built into the architecture, not bolted on.
-- **Auditable** — provenance on every section + snapshot diffing. Know why context was included and what changed.
-- **Business-aware** — bind live CRM, bookings, and workspace data straight into prompts.
-
-📚 **Full documentation: [docs/](docs/README.md)** — quickstart, concepts, and guides for every package and feature.
+📚 **Docs: [docs/](docs/README.md)**
 
 ## Packages
 
-**Core & framework**
+**Start here**
 
 | Package | Description | Status |
 | --- | --- | --- |
-| [`@losi/core`](packages/core) | Context engine, `LLMAdapter` contract, snapshots, storage, resilience, memory + governance config | 🟢 Live |
-| [`@losi/mcp`](packages/mcp) | MCP client with per-tool data access scopes | 🟢 Live |
-| [`@losi/skills`](packages/skills) | Define, install, and run reusable multi-step agent skills | 🟢 Live |
-| [`@losi/governance`](packages/governance) | Per-agent policy engine, audit log, kill switch | 🟢 Live |
-| [`@losi/react`](packages/react) | React provider + hooks for embedding Losi context | 🟢 Live |
+| [`@losi-ai/core`](packages/core) | `LosiContext`, adapters contract, snapshots, storage | 🟢 Live |
+| [`@losi-ai/openai`](packages/openai) / [`anthropic`](packages/anthropic) / … | Model adapters (same `LLMAdapter` interface) | 🟢 Live |
+| [`@losi-ai/ollama`](packages/ollama) | Local models, no cloud key | 🟢 Live |
 
-**Model adapters** — every one implements the same `LLMAdapter` contract, so switching is a one-liner:
-
-| Package | Provider | Default model | Status |
-| --- | --- | --- | --- |
-| [`@losi/openai`](packages/openai) | OpenAI (GPT) | `gpt-4o` | 🟢 Live |
-| [`@losi/anthropic`](packages/anthropic) | Anthropic (Claude) | `claude-sonnet-4-20250514` | 🟢 Live |
-| [`@losi/gemini`](packages/gemini) | Google Gemini | `gemini-1.5-pro` | 🟢 Live |
-| [`@losi/mistral`](packages/mistral) | Mistral AI | `mistral-large-latest` | 🟢 Live |
-| [`@losi/cohere`](packages/cohere) | Cohere | `command-r-plus` | 🟢 Live |
-| [`@losi/groq`](packages/groq) | Groq | `llama-3.3-70b-versatile` | 🟢 Live |
-| [`@losi/ollama`](packages/ollama) | Ollama (local, no key) | `llama3.2` | 🟢 Live |
-
-**Context bindings** — inject live business data. Use a local data provider (offline) or connect a hosted [Losi](https://losi.ai) workspace:
+**When you need them**
 
 | Package | Description | Status |
 | --- | --- | --- |
-| [`@losi/nexus`](packages/nexus) | CRM, bookings, and conversation context | 🟢 Live |
-| [`@losi/spaces`](packages/spaces) | Tasks, notes, sheets, and calendar context | 🟢 Live |
+| [`@losi-ai/nexus`](packages/nexus) | CRM / bookings context | 🟢 Live |
+| [`@losi-ai/spaces`](packages/spaces) | Tasks / notes / calendar context | 🟢 Live |
+| [`@losi-ai/skills`](packages/skills) | Save/run multi-step procedures | 🟢 Live |
+| [`@losi-ai/governance`](packages/governance) | Policy + audit | 🟢 Live |
+| [`@losi-ai/mcp`](packages/mcp) | MCP client with data scopes | 🟢 Live |
+| [`@losi-ai/react`](packages/react) | React hooks | 🟢 Live |
+
+**Adapter defaults** (override with `model:` anytime):
+
+| Package | Default model |
+| --- | --- |
+| `@losi-ai/openai` | `gpt-5.6-sol` |
+| `@losi-ai/anthropic` | `claude-sonnet-5` |
+| `@losi-ai/gemini` | `gemini-3.8-flash` |
+| `@losi-ai/mistral` | `mistral-large-latest` |
+| `@losi-ai/cohere` | `command-a-plus-05-2026` |
+| `@losi-ai/groq` | `openai/gpt-oss-120b` |
+| `@losi-ai/ollama` | `llama3.2` |
 
 🟢 Live · 🟡 Preview · 🔴 Coming soon
 
 ## Never go down: retry + provider fallback
 
 ```ts
-import { LosiContext, FallbackAdapter } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { AnthropicAdapter } from "@losi/anthropic";
-import { GroqAdapter } from "@losi/groq";
+import { LosiContext, FallbackAdapter } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { AnthropicAdapter } from "@losi-ai/anthropic";
+import { GroqAdapter } from "@losi-ai/groq";
 
 // Retries each provider, then fails over to the next — transparently.
 const adapter = new FallbackAdapter(
@@ -152,7 +130,7 @@ const ctx = new LosiContext({ adapter });
 ## Persist context across sessions
 
 ```ts
-import { LosiContext, MemorySnapshotStore, serializeSnapshot } from "@losi/core";
+import { LosiContext, MemorySnapshotStore, serializeSnapshot } from "@losi-ai/core";
 
 const store = new MemorySnapshotStore(); // or your own disk/Redis SnapshotStore
 const ctx = new LosiContext({ adapter, store, persistKey: "user-42" });
@@ -168,7 +146,7 @@ const portable = serializeSnapshot(ctx.getSnapshot()); // send it anywhere
 ## Governance in one snippet
 
 ```ts
-import { PolicyManager } from "@losi/governance";
+import { PolicyManager } from "@losi-ai/governance";
 
 const gov = new PolicyManager();
 gov.setPolicy("support-bot", { spendCapUsd: 10, rateLimitPerMinute: 30, blockedActions: ["delete"] });
@@ -182,7 +160,7 @@ gov.kill("support-bot"); // emergency stop — every future action is denied
 ## MCP with data scopes
 
 ```ts
-import { MCPClient } from "@losi/mcp";
+import { MCPClient } from "@losi-ai/mcp";
 
 const github = new MCPClient({
   name: "github",
@@ -197,27 +175,25 @@ await github.callTool("create_issue", { title: "Bug" });
 
 ## vs LangChain
 
-LangChain **orchestrates** model calls — chains, agents, and tool routing. Losi Context Bank **persists** business context across them.
+LangChain **orchestrates** model calls. Context Bank **persists** a portable
+snapshot across them. Complementary, not a replacement.
 
 |  | LangChain | Losi Context Bank |
 | --- | --- | --- |
 | Orchestration / chains | ✅ | Bring your own |
-| Model switching keeps context | ❌ | ✅ |
-| Persistent business context | ❌ | ✅ |
-| Built-in CRM / bookings | ❌ | ✅ (via Nexus) |
-| Built-in workspace (tasks/notes/sheets) | ❌ | ✅ (via Spaces) |
-| Per-agent governance + audit | ❌ | ✅ |
+| Model switching keeps context | ❌ | ✅ (free SDK) |
+| Snapshot / `remember()` persistence | DIY | ✅ (free SDK) |
+| Live CRM / Spaces / graph | DIY | Optional hosted (`LOSI_API_KEY`) |
+| Per-agent governance + audit | DIY | ✅ (local; hosted audit sink) |
 | MCP tools with data scopes | Partial | ✅ |
-
-They're complementary: orchestrate with LangChain, persist and govern context with Losi.
 
 ## Hosted platform
 
-The SDK is free and MIT licensed. Full context persistence, the governance UI, Nexus CRM, bookings, voice agents, and Spaces live on the hosted platform at **[losi.ai](https://losi.ai)**.
+The SDK is MIT. Live CRM, Spaces, graph, and skill persistence run on **[losi.ai](https://losi.ai)** behind a workspace-scoped API key.
 
-- **Free SDK** — everything in this repo.
-- **Hosted** — connect an API key + workspace id and the `@losi/nexus` / `@losi/spaces` bindings pull live data.
-- **Enterprise** — self-hosted and private deployment available. [Talk to us](https://losi.ai).
+- **Free SDK** — adapters, snapshots, local stores — everything in this repo without an account.
+- **Hosted** — same Losi workspace data the product uses; see [docs/hosted.md](docs/hosted.md).
+- **Enterprise** — private deployment. [Talk to us](https://losi.ai).
 
 ## Roadmap
 

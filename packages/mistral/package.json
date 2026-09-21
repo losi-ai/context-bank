@@ -1,5 +1,5 @@
 {
-  "name": "@losi/mistral",
+  "name": "@losi-ai/mistral",
   "version": "0.1.0",
   "description": "Mistral AI adapter for Losi Context Bank. Give Mistral persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -37,13 +37,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "@mistralai/mistralai": "^1.3.5"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

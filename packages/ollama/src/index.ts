@@ -1,7 +1,7 @@
 /**
- * `@losi/ollama` — local Ollama adapter for Losi Context Bank.
+ * `@losi-ai/ollama` — local Ollama adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `ollama` npm package. Talks to a local Ollama server (default
  * `http://127.0.0.1:11434`), so no cloud SDK or API key is required. Supports
  * chat completions and streaming.
@@ -17,7 +17,7 @@ import type {
   CompletionResult,
   LLMAdapter,
   Message,
-} from "@losi/core";
+} from "@losi-ai/core";
 
 /** The default Ollama model used when none is specified. */
 export const DEFAULT_OLLAMA_MODEL = "llama3.2";
@@ -51,7 +51,7 @@ function toOllamaMessages(messages: Message[], system?: string): OllamaMessage[]
  *
  * @example
  * ```ts
- * import { OllamaAdapter } from "@losi/ollama";
+ * import { OllamaAdapter } from "@losi-ai/ollama";
  * const adapter = new OllamaAdapter({ model: "llama3.2" });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * console.log(res.content);

@@ -1,12 +1,16 @@
 # Skills
 
-`@losi/skills` runs reusable, multi-step agent processes. A skill is a named,
+`@losi-ai/skills` runs reusable, multi-step agent processes. A skill is a named,
 parameterized sequence of steps; each step's output flows to the next.
+
+> Note: this package is the **executable procedure** runner (tool/note/checkpoint
+> steps). GitHub `SKILL.md` package installs in the Losi app live in
+> `skill_integrations` and are installed via the Integrations / Tools UI.
 
 ## Define & run
 
 ```ts
-import { SkillRunner, defineSkill } from "@losi/skills";
+import { SkillRunner, defineSkill } from "@losi-ai/skills";
 
 const outreach = defineSkill({
   name: "lead-outreach",
@@ -25,6 +29,58 @@ const result = await runner.run("lead-outreach", { lead: "Ada Lovelace" });
 result.finalOutput;
 ```
 
+## Persist to hosted Losi (workspace_skills)
+
+Prefer a **workspace-scoped** API key so you do not pass `workspaceId`:
+
+```ts
+import { SkillRunner, LosiSkillStore, defineSkill } from "@losi-ai/skills";
+
+const store = new LosiSkillStore({ apiKey: process.env.LOSI_API_KEY! });
+const runner = new SkillRunner({
+  executeTool: (tool, args) => callMyTool(tool, args),
+  store,
+});
+
+await runner.save(defineSkill({ name: "lead-outreach", steps: [...] }));
+await runner.installFromStore();
+```
+
+Saved skills land in the same `workspace_skills` table as Nexus / AgentSkills.
+Visibility is `private` (creator) or `workspace` (members).
+
+## Govern save & run
+
+```ts
+import { PolicyManager, LosiAuditSink } from "@losi-ai/governance";
+import { GovernedSkillRunner, LosiSkillStore } from "@losi-ai/skills";
+
+const gov = new PolicyManager(
+  new LosiAuditSink({ apiKey: process.env.LOSI_API_KEY!, workspaceId: "..." }),
+);
+gov.setPolicy("agent-1", {
+  blockedActions: [],
+  allowedScopes: ["skills", "crm"],
+});
+
+const runner = new GovernedSkillRunner(gov, {
+  agentId: "agent-1",
+  store: new LosiSkillStore({ apiKey: process.env.LOSI_API_KEY! }),
+  executeTool: (tool, args) => callMyTool(tool, args),
+});
+```
+
+## Inject skills into context
+
+```ts
+import { formatSkillsContextSection } from "@losi-ai/skills";
+
+await ctx.remember(formatSkillsContextSection(await store.list()), {
+  label: "Available skills",
+  scope: "skills",
+});
+```
+
 ## Step types
 
 - `tool` — invoke a named tool via the `ToolExecutor` you pass to `SkillRunner`.
@@ -38,16 +94,4 @@ result.finalOutput;
 
 Required parameters are validated before the run starts (`resolveInputs`).
 
-## Wire tools to MCP
-
-The `ToolExecutor` is just `(tool, args) => result`, so point it at
-[`@losi/mcp`](./mcp.md):
-
-```ts
-import { MCPRegistry } from "@losi/mcp";
-const registry = new MCPRegistry();
-// ...connect servers...
-const runner = new SkillRunner((tool, args) => registry.callTool("github", tool, args));
-```
-
-Next: [React](./react.md).
+Next: [Governance](./governance.md).

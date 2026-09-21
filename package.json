@@ -31,11 +31,11 @@
   },
   "scripts": {
     "build": "npm run build --workspaces --if-present --include-workspace-root=false",
-    "build:serial": "for p in core openai anthropic gemini mistral cohere groq ollama mcp nexus spaces skills governance react; do npm run build -w @losi/$p || exit 1; done",
+    "build:serial": "for p in core openai anthropic gemini mistral cohere groq ollama mcp nexus spaces skills governance react; do npm run build -w @losi-ai/$p || exit 1; done",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "clean": "npm run clean --workspaces --if-present && rm -rf packages/*/dist packages/*/*.tsbuildinfo",
     "test": "npm run test --workspaces --if-present",
-    "demos": "npm run build:serial && npm run demo:all -w @losi/examples"
+    "demos": "npm run build:serial && npm run demo:all -w @losi-ai/examples"
   },
   "devDependencies": {
     "typescript": "^5.5.4"

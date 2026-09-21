@@ -1,5 +1,5 @@
 {
-  "name": "@losi/skills",
+  "name": "@losi-ai/skills",
   "version": "0.1.0",
   "description": "Reusable multi-step agent skills for Losi Context Bank — define, install, and run skills with parameterized steps.",
   "license": "MIT",
@@ -32,14 +32,16 @@
   "scripts": {
     "build": "tsup",
     "clean": "rm -rf dist *.tsbuildinfo",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test src/skills.test.ts"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.4"
   },
   "publishConfig": {

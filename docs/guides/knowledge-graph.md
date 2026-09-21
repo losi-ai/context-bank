@@ -1,9 +1,19 @@
 # Knowledge Graph & Relations
 
-Flat context is a list of facts. **Relational context is a graph** — entities
-and the typed relationships between them. This is the single biggest thing that
-separates modern agent memory from RAG, and Losi Context Bank makes it a
-first-class, MIT-licensed primitive in `@losi/core`.
+**Pick one on day 1:**
+
+| Mode | Source | Needs Losi account? |
+| --- | --- | --- |
+| Local | You build (or bindings synthesize) nodes/edges into the snapshot | No |
+| Hosted | Losi's live workspace graph via `GET …/graph` | Yes (`LOSI_API_KEY`) |
+
+Same `KnowledgeGraph` shape either way — different source, not a second product
+database. Hosted mode reads Losi's real cross-surface graph (CRM + Spaces +
+memory + chat) and maps it into this type. Offline, `@losi-ai/core` ships the
+type + helpers so you can build/test without an account.
+
+Flat context is a list of facts. Relational context is entities plus typed
+edges.
 
 ## The shape
 
@@ -29,10 +39,10 @@ interface GraphEdge {
 interface KnowledgeGraph { nodes: GraphNode[]; edges: GraphEdge[] }
 ```
 
-## Build one
+## Build one (local)
 
 ```ts
-import { createGraph, addNode, addEdge, neighbors, renderGraph } from "@losi/core";
+import { createGraph, addNode, addEdge, neighbors, renderGraph } from "@losi-ai/core";
 
 const g = createGraph();
 addNode(g, { id: "c1", type: "contact", label: "Ada Lovelace" });
@@ -52,24 +62,28 @@ relations, not just the entities. Because the graph lives in the snapshot, it
 
 ## Bindings produce graphs automatically
 
-`@losi/nexus` and `@losi/spaces` implement `resolveGraph()`:
+`@losi-ai/nexus` and `@losi-ai/spaces` implement `resolveGraph()`:
 
 - Nexus → `contact —works_at→ company`, `contact —booked→ booking`
 - Spaces → `task —assigned_to→ person`, plus event nodes
 
-Add the binding to a `LosiContext` and relations appear in the prompt with no
-extra work. See [Bindings](./bindings.md).
+Pass a binding into `LosiContext` and relations appear in the prompt. Local
+`data:` providers work offline; a workspace API key pulls live Losi rows.
+See [Bindings](./bindings.md).
 
 ## From the hosted platform
 
-A connected Losi workspace exposes its cross-surface graph (CRM + Spaces +
-memory + chat) at `GET /workspaces/{id}/graph` — list mode
-(`?nodeType=&search=&limit=`) or traverse mode (`?rootType=&rootId=&depth=`).
-The response maps directly onto `KnowledgeGraph`. See [Hosted](../hosted.md).
+A connected Losi workspace exposes its cross-surface graph at
+`GET /workspaces/{id}/graph` — list (`?nodeType=&search=&limit=`) or traverse
+(`?rootType=&rootId=&depth=`). Response → `KnowledgeGraph`. See
+[Hosted](../hosted.md).
+
+When that path is live, the model sees **your** contacts, bookings, and tasks —
+not a demo inventing relationships.
 
 ## Why it beats chat-derived graphs
 
-Competitors infer a graph by extracting triples from conversation logs — lossy
-and probabilistic. Losi's graph is built **top-down from real business
-objects**, so `Ada —booked→ Demo` is a fact from the CRM, not a guess from a
-sentence. Next: [Temporal reasoning](./temporal-reasoning.md).
+Competitors infer triples from conversation logs — lossy and probabilistic.
+Losi's hosted graph is built **top-down from real business objects**, so
+`Ada —booked→ Demo` is a CRM fact, not a guess from a sentence. Next:
+[Temporal reasoning](./temporal-reasoning.md).

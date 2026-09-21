@@ -1,5 +1,5 @@
 {
-  "name": "@losi/cohere",
+  "name": "@losi-ai/cohere",
   "version": "0.1.0",
   "description": "Cohere adapter for Losi Context Bank. Give Cohere persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "cohere",
-    "command-r",
+    "command-a",
     "llm context",
     "ai memory",
     "multi-llm",
@@ -37,13 +37,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "cohere-ai": "^7.14.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

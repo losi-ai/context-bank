@@ -8,16 +8,18 @@ shares one interface, switching models is `ctx.switchAdapter(...)`.
 
 | Package | Provider | Default model | Env var |
 | --- | --- | --- | --- |
-| `@losi/openai` | OpenAI | `gpt-4o` | `OPENAI_API_KEY` |
-| `@losi/anthropic` | Anthropic | `claude-sonnet-4-20250514` | `ANTHROPIC_API_KEY` |
-| `@losi/gemini` | Google Gemini | `gemini-1.5-pro` | `GEMINI_API_KEY` |
+| `@losi/openai` | OpenAI | `gpt-5.6-sol` | `OPENAI_API_KEY` |
+| `@losi/anthropic` | Anthropic | `claude-sonnet-5` | `ANTHROPIC_API_KEY` |
+| `@losi/gemini` | Google Gemini | `gemini-3.8-flash` | `GEMINI_API_KEY` |
 | `@losi/mistral` | Mistral | `mistral-large-latest` | `MISTRAL_API_KEY` |
-| `@losi/cohere` | Cohere | `command-r-plus` | `COHERE_API_KEY` |
-| `@losi/groq` | Groq | `llama-3.3-70b-versatile` | `GROQ_API_KEY` |
+| `@losi/cohere` | Cohere | `command-a-plus-05-2026` | `COHERE_API_KEY` |
+| `@losi/groq` | Groq | `openai/gpt-oss-120b` | `GROQ_API_KEY` |
 | `@losi/ollama` | Ollama (local) | `llama3.2` | none (host `127.0.0.1:11434`) |
 
 All accept `{ apiKey?, model?, client? }` (Ollama: `{ host?, model?, client? }`)
-and support `complete()` + `stream()`.
+and support `complete()` + `stream()`. Defaults above were refreshed against
+official provider docs (OpenAI, Anthropic, Google AI, Mistral, Cohere, Groq)
+as of 2026-09-20. Pass `model:` to override anytime.
 
 ## Use one
 

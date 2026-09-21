@@ -1,9 +1,9 @@
-# @losi/core
+# @losi-ai/core
 
 The context engine at the heart of [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Portable context for any LLM — switch models freely, your context stays.
 
 ```bash
-npm install @losi/core
+npm install @losi-ai/core
 ```
 
 ## What's in here
@@ -12,7 +12,7 @@ npm install @losi/core
 - **`LosiContext`** — holds memory + governance config and the active adapter. `switchAdapter()` swaps the model while keeping the context snapshot.
 - **`MemoryConfig` / `ContextSnapshot`** — declare what context to include; the snapshot is what gets injected and persisted.
 - **`GovernanceEngine` / `GovernanceConfig`** — in-memory spend caps, rate limits, blocked actions, data scopes, kill switch, audit log.
-- **`ContextBinding`** — the interface `@losi/nexus` and `@losi/spaces` implement.
+- **`ContextBinding`** — the interface `@losi-ai/nexus` and `@losi-ai/spaces` implement.
 - **Storage** — `serializeSnapshot` / `deserializeSnapshot` and a pluggable `SnapshotStore` (`MemorySnapshotStore` included) for persisting context across sessions.
 - **Resilience** — `withRetry` (exponential backoff + jitter) and `FallbackAdapter` (try a chain of providers, fail over transparently).
 - **Knowledge graph** — `KnowledgeGraph` of nodes + typed edges with optional bi-temporal validity (`addNode`/`addEdge`/`neighbors`/`renderGraph`), plus temporal reasoning (`queryValidRelations`/`invalidateEdge`/`supersede`). Carried inside `ContextSnapshot` and rendered into the prompt.
@@ -21,8 +21,8 @@ npm install @losi/core
 ## Example
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
+import { LosiContext } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
 
 const ctx = new LosiContext({
   adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),

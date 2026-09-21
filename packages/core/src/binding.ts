@@ -1,6 +1,6 @@
 /**
- * The {@link ContextBinding} interface. Bindings (like `@losi/nexus` and
- * `@losi/spaces`) resolve live business context into {@link ContextSection}s
+ * The {@link ContextBinding} interface. Bindings (like `@losi-ai/nexus` and
+ * `@losi-ai/spaces`) resolve live business context into {@link ContextSection}s
  * that get merged into a {@link ContextSnapshot}.
  *
  * @packageDocumentation

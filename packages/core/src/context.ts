@@ -71,9 +71,9 @@ export interface ContextCompletionOptions extends CompletionOptions {
  *
  * @example
  * ```ts
- * import { LosiContext } from "@losi/core";
- * import { OpenAIAdapter } from "@losi/openai";
- * import { AnthropicAdapter } from "@losi/anthropic";
+ * import { LosiContext } from "@losi-ai/core";
+ * import { OpenAIAdapter } from "@losi-ai/openai";
+ * import { AnthropicAdapter } from "@losi-ai/anthropic";
  *
  * const ctx = new LosiContext({
  *   adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),

@@ -1,10 +1,10 @@
 /**
- * `@losi/core` — portable context infrastructure for LLMs.
+ * `@losi-ai/core` — portable context infrastructure for LLMs.
  *
  * Switch models freely; your context stays. This package defines the
  * {@link LLMAdapter} contract, the {@link LosiContext} orchestrator, memory and
  * governance configuration, and the {@link ContextBinding} interface that
- * `@losi/nexus` and `@losi/spaces` implement.
+ * `@losi-ai/nexus` and `@losi-ai/spaces` implement.
  *
  * @packageDocumentation
  */

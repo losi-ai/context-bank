@@ -1,5 +1,5 @@
 {
-  "name": "@losi/anthropic",
+  "name": "@losi-ai/anthropic",
   "version": "0.1.0",
   "description": "Anthropic Claude adapter for Losi Context Bank. Give Claude persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -38,13 +38,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.27.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

@@ -1,15 +1,15 @@
-# @losi/governance
+# @losi-ai/governance
 
 Per-agent **governance policy engine** for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Spend caps, rate limits, blocked actions, data scopes, an audit log, and a kill switch.
 
 ```bash
-npm install @losi/core @losi/governance
+npm install @losi-ai/core @losi-ai/governance
 ```
 
 ## Example
 
 ```ts
-import { PolicyManager } from "@losi/governance";
+import { PolicyManager } from "@losi-ai/governance";
 
 const gov = new PolicyManager();
 
@@ -33,7 +33,7 @@ console.log(gov.audit("support-bot")); // every decision, recorded
 `LosiAuditSink` forwards audit entries to the hosted Losi governance API. Without a connection it buffers locally so nothing is lost:
 
 ```ts
-import { PolicyManager, LosiAuditSink } from "@losi/governance";
+import { PolicyManager, LosiAuditSink } from "@losi-ai/governance";
 
 const sink = new LosiAuditSink({ apiKey: process.env.LOSI_API_KEY, workspaceId: "..." });
 const gov = new PolicyManager(sink);

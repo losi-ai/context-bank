@@ -1,16 +1,16 @@
-# @losi/mistral
+# @losi-ai/mistral
 
 Mistral AI adapter for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Give Mistral persistent business context, then switch models without losing it.
 
 ```bash
-npm install @losi/core @losi/mistral @mistralai/mistralai
+npm install @losi-ai/core @losi-ai/mistral @mistralai/mistralai
 ```
 
 ## Example
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { MistralAdapter } from "@losi/mistral";
+import { LosiContext } from "@losi-ai/core";
+import { MistralAdapter } from "@losi-ai/mistral";
 
 const ctx = new LosiContext({
   adapter: new MistralAdapter({ apiKey: process.env.MISTRAL_API_KEY! }),

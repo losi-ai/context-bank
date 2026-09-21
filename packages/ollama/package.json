@@ -1,5 +1,5 @@
 {
-  "name": "@losi/ollama",
+  "name": "@losi-ai/ollama",
   "version": "0.1.0",
   "description": "Ollama (local) adapter for Losi Context Bank. Give local models persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -37,13 +37,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "ollama": "^0.5.9"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

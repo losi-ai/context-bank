@@ -1,5 +1,5 @@
 {
-  "name": "@losi/nexus",
+  "name": "@losi-ai/nexus",
   "version": "0.1.0",
   "description": "Nexus context binding for Losi Context Bank — inject live CRM, bookings, and conversation context into any LLM prompt.",
   "license": "MIT",
@@ -36,10 +36,10 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

@@ -1,9 +1,9 @@
 /**
- * `@losi/react` — React hooks and provider for Losi Context Bank.
+ * `@losi-ai/react` — React hooks and provider for Losi Context Bank.
  *
  * Wrap your app in {@link LosiProvider}, then use the hooks to read the current
  * context snapshot, send prompts, and inspect governance — all backed by the
- * `LosiContext` class from `@losi/core`.
+ * `LosiContext` class from `@losi-ai/core`.
  *
  * @packageDocumentation
  */
@@ -23,7 +23,7 @@ import type {
   GovernanceAction,
   EnforcementResult,
   LosiContext,
-} from "@losi/core";
+} from "@losi-ai/core";
 
 interface LosiReactValue {
   context: LosiContext;
@@ -33,7 +33,7 @@ const LosiReactContext = createContext<LosiReactValue | null>(null);
 
 /** Props for {@link LosiProvider}. */
 export interface LosiProviderProps {
-  /** A configured `LosiContext` instance from `@losi/core`. */
+  /** A configured `LosiContext` instance from `@losi-ai/core`. */
   context: LosiContext;
   /** Your application tree. */
   children: ReactNode;

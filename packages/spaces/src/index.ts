@@ -1,5 +1,5 @@
 /**
- * `@losi/spaces` — workspace execution context for LLMs.
+ * `@losi-ai/spaces` — workspace execution context for LLMs.
  *
  * Spaces binds tasks, notes, sheets, and calendar context into a
  * {@link ContextSnapshot}. Two ways to feed it data:
@@ -14,8 +14,8 @@
  * @packageDocumentation
  */
 
-import type { ContextBinding, ContextSection, DataScope, KnowledgeGraph } from "@losi/core";
-import { createGraph, addNode, addEdge } from "@losi/core";
+import type { ContextBinding, ContextSection, DataScope, KnowledgeGraph } from "@losi-ai/core";
+import { createGraph, addNode, addEdge } from "@losi-ai/core";
 import { SpacesApiClient } from "./api.js";
 import type { LosiConnection } from "./api.js";
 

@@ -1,64 +1,44 @@
 # Quickstart
 
+**Day 1 = portable snapshots + model switching.** Live CRM / Spaces / graph
+need a workspace API key — optional. See [Hosted](./hosted.md).
+
 ## Install
 
 ```bash
-npm install @losi/core @losi/openai @losi/anthropic
+npm install @losi-ai/core @losi-ai/openai @losi-ai/anthropic
 ```
 
 ## 1. One context, any model
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { AnthropicAdapter } from "@losi/anthropic";
+import { LosiContext, MemorySnapshotStore } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { AnthropicAdapter } from "@losi-ai/anthropic";
 
 const ctx = new LosiContext({
   adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),
-  memory: { crm: true, bookings: true },
+  store: new MemorySnapshotStore(),
+  persistKey: "demo",
 });
 
-// Ask GPT-4o — context is injected automatically.
-const a = await ctx.complete("What meetings do I have tomorrow?");
+await ctx.remember("User prefers short answers.");
+const a = await ctx.complete("Draft a one-line status update.");
 
-// Switch to Claude. The context snapshot persists — nothing is re-fetched.
+// Switch models — the snapshot (and remember()) stays.
 ctx.switchAdapter(new AnthropicAdapter({ apiKey: process.env.ANTHROPIC_API_KEY! }));
-const b = await ctx.complete("Summarize those same meetings in one line.");
+const b = await ctx.complete("Say that again even shorter.");
 ```
 
-## 2. Add real business relations (the knowledge graph)
+`remember()` appends facts into the snapshot. It is **not** a Mem0-style
+embed/search engine — just durable context you control.
+
+## 2. Never go down (fallback + retry)
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { NexusBinding } from "@losi/nexus";
-
-const nexus = new NexusBinding({
-  crm: true,
-  bookings: true,
-  data: {
-    contacts: [{ id: "1", name: "Ada Lovelace", company: "Analytical Engines" }],
-    bookings: [{ id: "9", title: "Demo", startsAt: "2026-09-20T14:00", with: "Ada Lovelace" }],
-  },
-});
-
-const ctx = new LosiContext({
-  adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),
-  bindings: [nexus],
-});
-
-// The model receives a "## Relationships" block:
-//   - Ada Lovelace —works_at→ Analytical Engines
-//   - Ada Lovelace —booked→ Demo
-await ctx.complete("Who am I meeting and where do they work?");
-```
-
-## 3. Never go down (fallback + retry)
-
-```ts
-import { FallbackAdapter } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { GroqAdapter } from "@losi/groq";
+import { FallbackAdapter } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { GroqAdapter } from "@losi-ai/groq";
 
 const adapter = new FallbackAdapter(
   [new OpenAIAdapter({ apiKey: a }), new GroqAdapter({ apiKey: b })],
@@ -67,10 +47,40 @@ const adapter = new FallbackAdapter(
 const ctx = new LosiContext({ adapter });
 ```
 
-## 4. Govern it
+## 3. Optional: live Losi data (hosted)
+
+With a workspace-scoped `LOSI_API_KEY`, bindings pull **your** CRM / Spaces rows
+(same data as the Losi app). Without a key, pass a local `data:` provider for
+demos — see [Bindings](./guides/bindings.md).
 
 ```ts
-import { PolicyManager } from "@losi/governance";
+import { LosiContext } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { NexusBinding } from "@losi-ai/nexus";
+
+const nexus = new NexusBinding({
+  apiKey: process.env.LOSI_API_KEY!, // workspace implied by the key
+  crm: true,
+  bookings: true,
+});
+
+const ctx = new LosiContext({
+  adapter: new OpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! }),
+  bindings: [nexus],
+});
+
+await ctx.complete("What meetings do I have tomorrow?");
+```
+
+## 4. Optional: knowledge graph
+
+Same `KnowledgeGraph` shape offline or hosted — different source. Full guide:
+[Knowledge graph](./guides/knowledge-graph.md).
+
+## 5. Optional: govern it
+
+```ts
+import { PolicyManager } from "@losi-ai/governance";
 
 const gov = new PolicyManager();
 gov.setPolicy("support-bot", { spendCapUsd: 10, rateLimitPerMinute: 30, blockedActions: ["delete"] });
@@ -78,4 +88,4 @@ const decision = gov.enforce({ agentId: "support-bot", type: "complete", costUsd
 if (!decision.allowed) throw new Error(decision.reason);
 ```
 
-Next: [Concepts](./concepts.md) · [Knowledge graph](./guides/knowledge-graph.md)
+Next: [Concepts](./concepts.md) · [Hosted](./hosted.md)

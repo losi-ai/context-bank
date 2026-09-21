@@ -1,15 +1,16 @@
-# @losi/skills
+# @losi-ai/skills
 
-Reusable, multi-step agent **skills** for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Define parameterized skills, install them, and run them — each step's output flows to the next.
+Reusable, multi-step agent **skills** for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Define parameterized skills, install them, persist them to hosted Losi, and govern save/run.
 
 ```bash
-npm install @losi/core @losi/skills
+npm install @losi-ai/core @losi-ai/skills @losi-ai/governance
 ```
 
 ## Example
 
 ```ts
-import { SkillRunner, defineSkill } from "@losi/skills";
+import { SkillRunner, LosiSkillStore, GovernedSkillRunner, defineSkill } from "@losi-ai/skills";
+import { PolicyManager } from "@losi-ai/governance";
 
 const outreach = defineSkill({
   name: "lead-outreach",
@@ -21,15 +22,24 @@ const outreach = defineSkill({
   ],
 });
 
-const runner = new SkillRunner(async (tool, args) => callMyTool(tool, args));
-runner.install(outreach);
+const store = new LosiSkillStore({ apiKey: process.env.LOSI_API_KEY! });
+const gov = new PolicyManager();
+gov.setPolicy("agent-1", { allowedScopes: ["skills"] });
 
+const runner = new GovernedSkillRunner(gov, {
+  agentId: "agent-1",
+  store,
+  executeTool: async (tool, args) => callMyTool(tool, args),
+});
+
+await runner.save(outreach);
 const result = await runner.run("lead-outreach", { lead: "Ada Lovelace" });
 console.log(result.finalOutput);
 ```
 
 - Step types: `tool`, `note`, `checkpoint`
-- Reference parameters with `{{param}}` and prior step outputs with `{{steps.id}}`
-- Wire the `ToolExecutor` to [`@losi/mcp`](../mcp) or your own tools
+- Hosted saves go to Losi `workspace_skills` (same store as the app)
+- Prefer workspace-scoped API keys (no separate `workspaceId`)
+- Wire tools to [`@losi-ai/mcp`](../mcp) or your own executor
 
 MIT licensed.

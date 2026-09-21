@@ -1,19 +1,19 @@
-# @losi/spaces
+# @losi-ai/spaces
 
 Spaces context binding for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Inject **tasks, notes, sheets, and calendar** context into any LLM prompt.
 
 Works two ways: a **local data provider** (bring your own data — fully offline, no account) or the **hosted Losi platform** (`apiKey` + `workspaceId` for live data).
 
 ```bash
-npm install @losi/core @losi/spaces
+npm install @losi-ai/core @losi-ai/spaces
 ```
 
 ## Local — no hosted account needed
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { AnthropicAdapter } from "@losi/anthropic";
-import { SpacesBinding } from "@losi/spaces";
+import { LosiContext } from "@losi-ai/core";
+import { AnthropicAdapter } from "@losi-ai/anthropic";
+import { SpacesBinding } from "@losi-ai/spaces";
 
 const spaces = new SpacesBinding({
   tasks: true,

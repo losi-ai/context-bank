@@ -1,17 +1,17 @@
-# @losi/react
+# @losi-ai/react
 
 React provider and hooks for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Embed persistent LLM context, memory, and governance in any React app.
 
 ```bash
-npm install @losi/core @losi/react react
+npm install @losi-ai/core @losi-ai/react react
 ```
 
 ## Example
 
 ```tsx
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { LosiProvider, useLosiComplete } from "@losi/react";
+import { LosiContext } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { LosiProvider, useLosiComplete } from "@losi-ai/react";
 
 const ctx = new LosiContext({
   adapter: new OpenAIAdapter({ apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY! }),

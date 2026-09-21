@@ -1,9 +1,9 @@
 /**
- * `@losi/groq` — Groq adapter for Losi Context Bank.
+ * `@losi-ai/groq` — Groq adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `groq-sdk`. The Groq SDK mirrors the OpenAI `chat.completions` API,
- * so this adapter follows the same shape as `@losi/openai`. Supports chat
+ * so this adapter follows the same shape as `@losi-ai/openai`. Supports chat
  * completions, function/tool calling, and streaming.
  *
  * @packageDocumentation
@@ -17,11 +17,11 @@ import type {
   LLMAdapter,
   Message,
   ToolCall,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default Groq model used when none is specified. */
-export const DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile";
+export const DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b";
 
 /** Options for constructing a {@link GroqAdapter}. */
 export interface GroqAdapterOptions {
@@ -61,7 +61,7 @@ function parseArguments(raw: string): Record<string, unknown> {
  *
  * @example
  * ```ts
- * import { GroqAdapter } from "@losi/groq";
+ * import { GroqAdapter } from "@losi-ai/groq";
  * const adapter = new GroqAdapter({ apiKey: process.env.GROQ_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * console.log(res.content);

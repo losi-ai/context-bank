@@ -1,7 +1,7 @@
 /**
- * `@losi/mistral` — Mistral AI adapter for Losi Context Bank.
+ * `@losi-ai/mistral` — Mistral AI adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `@mistralai/mistralai` SDK (v1). Supports chat completions and
  * streaming, so you can give Mistral persistent business context and switch
  * models without losing it.
@@ -17,8 +17,8 @@ import type {
   CompletionResult,
   LLMAdapter,
   Message,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default Mistral model used when none is specified. */
 export const DEFAULT_MISTRAL_MODEL = "mistral-large-latest";
@@ -72,7 +72,7 @@ function normalizeContent(content: string | ContentChunk[] | null | undefined): 
  *
  * @example
  * ```ts
- * import { MistralAdapter } from "@losi/mistral";
+ * import { MistralAdapter } from "@losi-ai/mistral";
  * const adapter = new MistralAdapter({ apiKey: process.env.MISTRAL_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * console.log(res.content);

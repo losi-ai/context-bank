@@ -1,7 +1,7 @@
 /**
- * `@losi/cohere` — Cohere adapter for Losi Context Bank.
+ * `@losi-ai/cohere` — Cohere adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `cohere-ai` SDK (v7). Supports chat completions and streaming, so
  * you can give Cohere persistent business context and switch models without
  * losing it.
@@ -22,11 +22,11 @@ import type {
   CompletionResult,
   LLMAdapter,
   Message,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default Cohere model used when none is specified. */
-export const DEFAULT_COHERE_MODEL = "command-r-plus";
+export const DEFAULT_COHERE_MODEL = "command-a-plus-05-2026";
 
 /** Options for constructing a {@link CohereAdapter}. */
 export interface CohereAdapterOptions {
@@ -99,7 +99,7 @@ function toCohereChat(messages: Message[], system?: string): CohereChatInput {
  *
  * @example
  * ```ts
- * import { CohereAdapter } from "@losi/cohere";
+ * import { CohereAdapter } from "@losi-ai/cohere";
  * const adapter = new CohereAdapter({ apiKey: process.env.COHERE_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * console.log(res.content);

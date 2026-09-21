@@ -1,5 +1,5 @@
 {
-  "name": "@losi/governance",
+  "name": "@losi-ai/governance",
   "version": "0.1.0",
   "description": "AI governance policy engine for Losi Context Bank — per-agent spend caps, rate limits, blocked actions, data scopes, audit log, and kill switch.",
   "license": "MIT",
@@ -36,10 +36,10 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

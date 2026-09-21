@@ -1,5 +1,5 @@
 {
-  "name": "@losi/mcp",
+  "name": "@losi-ai/mcp",
   "version": "0.1.0",
   "description": "MCP (Model Context Protocol) client adapter for Losi Context Bank with per-tool data access scopes and governance enforcement.",
   "license": "MIT",
@@ -37,10 +37,10 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

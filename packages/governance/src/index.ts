@@ -1,7 +1,7 @@
 /**
- * `@losi/governance` — multi-agent policy engine and audit layer.
+ * `@losi-ai/governance` — multi-agent policy engine and audit layer.
  *
- * Wraps the in-memory {@link GovernanceEngine} from `@losi/core` with a
+ * Wraps the in-memory {@link GovernanceEngine} from `@losi-ai/core` with a
  * per-agent policy registry, a kill switch, and an audit sink. The in-memory
  * enforcement is fully functional; persistent audit storage is delegated to an
  * {@link AuditSink} — the clean boundary to the hosted Losi platform.
@@ -9,15 +9,15 @@
  * @packageDocumentation
  */
 
-import type { AuditEntry, GovernanceAction, GovernanceConfig, EnforcementResult } from "@losi/core";
-import { GovernanceEngine, GovernanceError } from "@losi/core";
+import type { AuditEntry, GovernanceAction, GovernanceConfig, EnforcementResult } from "@losi-ai/core";
+import { GovernanceEngine, GovernanceError } from "@losi-ai/core";
 
 export type {
   AuditEntry,
   GovernanceAction,
   GovernanceConfig,
   EnforcementResult,
-} from "@losi/core";
+} from "@losi-ai/core";
 
 /**
  * A destination for audit entries. Implement this to persist entries to the

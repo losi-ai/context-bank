@@ -65,7 +65,7 @@ export interface ContextSection {
   content: string;
   /**
    * Optional provenance: where this section came from and why. Populated by
-   * `annotateProvenance` from `@losi/core`. Enables auditing why a piece of
+   * `annotateProvenance` from `@losi-ai/core`. Enables auditing why a piece of
    * context was in the prompt.
    */
   provenance?: {

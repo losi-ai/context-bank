@@ -1,5 +1,5 @@
 {
-  "name": "@losi/groq",
+  "name": "@losi-ai/groq",
   "version": "0.1.0",
   "description": "Groq adapter for Losi Context Bank. Give Groq persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -37,13 +37,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "groq-sdk": "^0.7.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

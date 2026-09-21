@@ -45,6 +45,9 @@ gov.revive("support-bot");
 gov.audit("support-bot");   // per-agent audit trail
 ```
 
+Pair skills with governance via `GovernedSkillRunner` from `@losi-ai/skills`
+(`skill_save` / `skill_run` / `tool_call`, scope `"skills"`).
+
 ## Persisting the audit log
 
 `LosiAuditSink` forwards audit entries to a hosted Losi workspace; without a

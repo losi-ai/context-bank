@@ -1,5 +1,5 @@
 {
-  "name": "@losi/gemini",
+  "name": "@losi-ai/gemini",
   "version": "0.1.0",
   "description": "Google Gemini adapter for Losi Context Bank. Give Gemini persistent business context and switch models without losing it.",
   "license": "MIT",
@@ -38,13 +38,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.1"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

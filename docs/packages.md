@@ -16,12 +16,12 @@ Every `@losi/*` package. All MIT-licensed, ESM + CJS + type declarations.
 
 | Package | Provider | Default model |
 | --- | --- | --- |
-| `@losi/openai` | OpenAI | `gpt-4o` |
-| `@losi/anthropic` | Anthropic | `claude-sonnet-4-20250514` |
-| `@losi/gemini` | Google Gemini | `gemini-1.5-pro` |
+| `@losi/openai` | OpenAI | `gpt-5.6-sol` |
+| `@losi/anthropic` | Anthropic | `claude-sonnet-5` |
+| `@losi/gemini` | Google Gemini | `gemini-3.8-flash` |
 | `@losi/mistral` | Mistral | `mistral-large-latest` |
-| `@losi/cohere` | Cohere | `command-r-plus` |
-| `@losi/groq` | Groq | `llama-3.3-70b-versatile` |
+| `@losi/cohere` | Cohere | `command-a-plus-05-2026` |
+| `@losi/groq` | Groq | `openai/gpt-oss-120b` |
 | `@losi/ollama` | Ollama (local) | `llama3.2` |
 
 ## Context bindings

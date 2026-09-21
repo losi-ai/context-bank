@@ -1,5 +1,5 @@
 {
-  "name": "@losi/spaces",
+  "name": "@losi-ai/spaces",
   "version": "0.1.0",
   "description": "Spaces context binding for Losi Context Bank — inject live tasks, notes, sheets, sprints, and calendar context into any LLM prompt.",
   "license": "MIT",
@@ -36,10 +36,10 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

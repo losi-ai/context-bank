@@ -1,7 +1,7 @@
 /**
- * `@losi/gemini` — Google Gemini adapter for Losi Context Bank.
+ * `@losi-ai/gemini` — Google Gemini adapter for Losi Context Bank.
  *
- * Implements the {@link LLMAdapter} contract from `@losi/core` on top of the
+ * Implements the {@link LLMAdapter} contract from `@losi-ai/core` on top of the
  * official `@google/generative-ai` SDK. Supports content generation and
  * streaming.
  *
@@ -16,11 +16,11 @@ import type {
   CompletionResult,
   LLMAdapter,
   Message,
-} from "@losi/core";
-import { AdapterError } from "@losi/core";
+} from "@losi-ai/core";
+import { AdapterError } from "@losi-ai/core";
 
 /** The default Gemini model used when none is specified. */
-export const DEFAULT_GEMINI_MODEL = "gemini-1.5-pro";
+export const DEFAULT_GEMINI_MODEL = "gemini-3.8-flash";
 
 /** Options for constructing a {@link GeminiAdapter}. */
 export interface GeminiAdapterOptions {
@@ -58,7 +58,7 @@ function extractSystem(messages: Message[], override?: string): string | undefin
  *
  * @example
  * ```ts
- * import { GeminiAdapter } from "@losi/gemini";
+ * import { GeminiAdapter } from "@losi-ai/gemini";
  * const adapter = new GeminiAdapter({ apiKey: process.env.GEMINI_API_KEY! });
  * const res = await adapter.complete([{ role: "user", content: "Hi" }]);
  * ```

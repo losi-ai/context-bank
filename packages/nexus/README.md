@@ -1,19 +1,19 @@
-# @losi/nexus
+# @losi-ai/nexus
 
 Nexus context binding for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Inject **CRM, bookings, and conversation** context into any LLM prompt.
 
 Works two ways: a **local data provider** (bring your own database or fixtures — fully offline, no account) or the **hosted Losi platform** (`apiKey` + `workspaceId` for live data).
 
 ```bash
-npm install @losi/core @losi/nexus
+npm install @losi-ai/core @losi-ai/nexus
 ```
 
 ## Local — no hosted account needed
 
 ```ts
-import { LosiContext } from "@losi/core";
-import { OpenAIAdapter } from "@losi/openai";
-import { NexusBinding } from "@losi/nexus";
+import { LosiContext } from "@losi-ai/core";
+import { OpenAIAdapter } from "@losi-ai/openai";
+import { NexusBinding } from "@losi-ai/nexus";
 
 const nexus = new NexusBinding({
   bookings: true,

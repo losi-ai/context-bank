@@ -1,5 +1,5 @@
 {
-  "name": "@losi/openai",
+  "name": "@losi-ai/openai",
   "version": "0.1.0",
   "description": "OpenAI adapter for Losi Context Bank. Give GPT persistent business context and switch to any other model without losing it.",
   "license": "MIT",
@@ -38,13 +38,13 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@losi/core": "^0.1.0"
+    "@losi-ai/core": "^0.1.0"
   },
   "dependencies": {
     "openai": "^4.56.0"
   },
   "devDependencies": {
-    "@losi/core": "^0.1.0",
+    "@losi-ai/core": "^0.1.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   },

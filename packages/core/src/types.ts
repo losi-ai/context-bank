@@ -4,7 +4,7 @@
  * Every LLM provider (OpenAI, Anthropic, Gemini, ...) is wrapped in an
  * {@link LLMAdapter}. Adapters are intentionally thin: they translate between
  * the portable Losi context format and a provider's native API. All business
- * logic — memory, governance, context snapshots — lives in `@losi/core`.
+ * logic — memory, governance, context snapshots — lives in `@losi-ai/core`.
  *
  * @packageDocumentation
  */
@@ -105,7 +105,7 @@ export interface CompletionChunk {
 /**
  * The contract every model adapter implements.
  *
- * Implement this interface to add a new provider. See `@losi/openai` for a
+ * Implement this interface to add a new provider. See `@losi-ai/openai` for a
  * reference implementation and CONTRIBUTING.md for the full guide.
  *
  * @example
@@ -120,7 +120,7 @@ export interface CompletionChunk {
 export interface LLMAdapter {
   /** Stable provider identifier, e.g. `"openai"`. */
   readonly provider: string;
-  /** The default model this adapter targets, e.g. `"gpt-4o"`. */
+  /** The default model this adapter targets, e.g. `"gpt-5.6-sol"`. */
   readonly model: string;
 
   /**

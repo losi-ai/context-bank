@@ -1,21 +1,22 @@
 /**
  * The Losi platform API boundary for Nexus data.
  *
- * Everything above this file is fully implemented and runs locally. This file
- * is the single, obvious place where live data is fetched from the hosted Losi
- * platform (https://losi.ai). Provide an `apiKey` + `workspaceId` to pull real
- * CRM, booking, and conversation data.
+ * Provide an `apiKey`. Workspace is implied by a workspace-scoped key —
+ * clients do not pass workspaceId.
  *
  * @packageDocumentation
  */
 
-import { ApiBoundaryError } from "@losi/core";
+import { ApiBoundaryError } from "@losi-ai/core";
 
 /** Connection settings for the hosted Losi platform. */
 export interface LosiConnection {
   /** Losi API key (from your workspace settings at https://losi.ai). */
   apiKey?: string;
-  /** Workspace id to scope data to. */
+  /**
+   * @deprecated Workspace is implied by the API key. Ignored when the key is
+   * workspace-scoped; kept only for older callers.
+   */
   workspaceId?: string;
   /** Override the API base URL. Defaults to the public Losi API. */
   baseUrl?: string;
@@ -42,29 +43,26 @@ export class NexusApiClient {
     this.fetchImpl = connection.fetchImpl ?? globalThis.fetch;
   }
 
-  /** Whether a live connection is configured. */
+  /** Whether a live connection is configured (API key present). */
   get isConnected(): boolean {
-    return Boolean(this.connection.apiKey && this.connection.workspaceId);
+    return Boolean(this.connection.apiKey);
   }
 
   /**
-   * Fetch a Nexus resource. This is the API boundary — wire it to your hosted
-   * Losi workspace by supplying an apiKey + workspaceId.
-   *
-   * @param resource - Resource path segment, e.g. "bookings", "contacts".
-   * @param query - Optional query params (e.g. a search string).
+   * Fetch a Nexus resource. Workspace comes from the API key binding —
+   * `GET /nexus/:resource` (no workspaceId in the path).
    */
   async fetchResource<T>(resource: string, query?: Record<string, string>): Promise<T> {
     if (!this.isConnected) {
       throw new ApiBoundaryError(
-        `Nexus is not connected. Provide { apiKey, workspaceId } to fetch live "${resource}" data from the Losi platform.`,
+        `Nexus is not connected. Provide { apiKey } to fetch live "${resource}" data from the Losi platform.`,
       );
     }
     if (!this.fetchImpl) {
       throw new ApiBoundaryError("No fetch implementation available for the Losi API");
     }
 
-    const url = new URL(`${this.baseUrl}/workspaces/${this.connection.workspaceId}/nexus/${resource}`);
+    const url = new URL(`${this.baseUrl}/nexus/${resource}`);
     for (const [k, v] of Object.entries(query ?? {})) url.searchParams.set(k, v);
 
     const res = await this.fetchImpl(url.toString(), {
