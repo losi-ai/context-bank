@@ -37,5 +37,6 @@ same data as the product, not a parallel invention.
 ## Reference
 
 - [Package map](./packages.md) — every `@losi-ai/*` package at a glance.
+- [Publishing](./publishing.md) — npmjs + GitHub Packages; npm/yarn/pnpm/bun install.
 - [Hosted platform](./hosted.md) — connecting to a Losi workspace for live data.
 - [Changelog](../CHANGELOG.md) · [Roadmap](../ROADMAP.md) · [Contributing](../CONTRIBUTING.md)

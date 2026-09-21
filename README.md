@@ -5,8 +5,14 @@
 Day one: keep a snapshot of what the model knows, swap GPT ↔ Claude ↔ Gemini, and nothing resets. Everything else (CRM, graph, skills, governance) is opt-in.
 
 ```bash
-npm install @losi-ai/core @losi-ai/openai @losi-ai/ollama
+npm  install @losi-ai/core @losi-ai/openai @losi-ai/ollama
+yarn add     @losi-ai/core @losi-ai/openai @losi-ai/ollama
+pnpm add     @losi-ai/core @losi-ai/openai @losi-ai/ollama
+bun  add     @losi-ai/core @losi-ai/openai @losi-ai/ollama
 ```
+
+Published to **npmjs.org** (one registry → every package manager). Optional GitHub
+Packages mirror: see [docs/publishing.md](docs/publishing.md).
 
 ## Free vs hosted (honest)
 

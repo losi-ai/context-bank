@@ -1,0 +1,117 @@
+# Publish @losi-ai/* packages on GitHub Release.
+#
+# Two registries:
+#   1) npmjs.org  — primary. Consumers use npm / yarn / pnpm / bun.
+#   2) GitHub Packages — optional mirror (npm.pkg.github.com).
+#
+# GitHub Packages REQUIRES the package scope to match a GitHub org/user.
+# Packages are named @losi-ai/* → you need a GitHub org named `losi-ai`
+# (or move this repo under that org). Marshmallowstudio alone cannot host
+# the @losi-ai scope on GPR. See docs/publishing.md.
+#
+# Secrets:
+#   NPM_TOKEN — npm Automation token with publish to @losi-ai
+#   GITHUB_TOKEN — automatic in Actions (packages: write)
+
+name: Publish packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20"
+  PKGS: >-
+    core openai anthropic gemini mistral cohere groq ollama
+    mcp nexus spaces skills governance react
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build:serial
+      - run: npm test
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build:serial
+
+      - name: Publish to npmjs.org (@losi-ai)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          for p in ${{ env.PKGS }}; do
+            echo "=== npmjs @losi-ai/$p ==="
+            npm publish -w "@losi-ai/$p" --access public --provenance
+          done
+
+  publish-github-packages:
+    needs: build
+    runs-on: ubuntu-latest
+    # Soft-fail until a GitHub org named `losi-ai` exists (scope must match owner).
+    continue-on-error: true
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://npm.pkg.github.com
+          scope: "@losi-ai"
+          cache: npm
+
+      - name: Point @losi-ai at GitHub Packages
+        run: |
+          {
+            echo "@losi-ai:registry=https://npm.pkg.github.com"
+            echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}"
+          } >> "$GITHUB_WORKSPACE/.npmrc"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: npm ci
+      - run: npm run build:serial
+
+      # Do NOT set publishConfig.registry in package.json — that would break npmjs.
+      # Override registry only for this job (per GitHub Packages npm docs).
+      - name: Publish to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "Note: GPR requires a GitHub org/user named losi-ai for @losi-ai/*"
+          for p in ${{ env.PKGS }}; do
+            echo "=== gpr @losi-ai/$p ==="
+            npm publish -w "@losi-ai/$p" --access public --registry=https://npm.pkg.github.com
+          done
