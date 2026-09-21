@@ -1,7 +1,7 @@
 # Publishing Losi Context Bank packages
 
-Packages are scoped **`@losi-ai/*`** and live in this monorepo
-(`Marshmallowstudio/losi-context-bank`).
+Packages are scoped **`@losi-ai/*`** in the monorepo
+[`losi-ai/losi-context-bank`](https://github.com/losi-ai/losi-context-bank).
 
 ## Where they go
 
@@ -22,19 +22,10 @@ pnpm add     @losi-ai/core @losi-ai/openai
 bun  add     @losi-ai/core @losi-ai/openai
 ```
 
-## GitHub Packages caveat (important)
+## GitHub Packages
 
-GitHub requires the package scope to match a GitHub user/org name:
-
-```text
-@NAMESPACE/package  →  NAMESPACE must be a GitHub account you own
-```
-
-Our packages are `@losi-ai/...`, so GPR only works if a GitHub org named
-**`losi-ai`** exists and this repo (or a fork) publishes under that org.
-
-`Marshmallowstudio` alone **cannot** host `@losi-ai` on `npm.pkg.github.com`.
-Until that org exists, use the **npmjs** job only (or ignore GPR job failures).
+Scope `@losi-ai` matches the GitHub org **`losi-ai`**, so GPR publish works
+from this repo with `GITHUB_TOKEN`.
 
 ### Consumer install from GitHub Packages
 
@@ -52,9 +43,8 @@ Use a classic PAT with `read:packages` (and `repo` if the package is private).
 ## Release steps
 
 1. Ensure `NPM_TOKEN` is set: repo **Settings → Secrets → Actions**.
-2. (Optional) Create GitHub org `losi-ai` and grant this workflow access.
-3. **Releases → Draft a new release** (tag `v0.1.0`) → Publish.
-4. Workflow [publish-packages.yml](../.github/workflows/publish-packages.yml) runs:
+2. **Releases → Draft a new release** (tag `v0.1.0`) → Publish.
+3. Workflow [publish-packages.yml](../.github/workflows/publish-packages.yml) runs:
    - build + test
    - publish all workspaces to npmjs
    - publish all workspaces to GitHub Packages

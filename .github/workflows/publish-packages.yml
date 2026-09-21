@@ -2,15 +2,10 @@
 #
 # Two registries:
 #   1) npmjs.org  — primary. Consumers use npm / yarn / pnpm / bun.
-#   2) GitHub Packages — optional mirror (npm.pkg.github.com).
-#
-# GitHub Packages REQUIRES the package scope to match a GitHub org/user.
-# Packages are named @losi-ai/* → you need a GitHub org named `losi-ai`
-# (or move this repo under that org). Marshmallowstudio alone cannot host
-# the @losi-ai scope on GPR. See docs/publishing.md.
+#   2) GitHub Packages — mirror at npm.pkg.github.com (scope matches org losi-ai).
 #
 # Secrets:
-#   NPM_TOKEN — npm Automation token with publish to @losi-ai
+#   NPM_TOKEN — npm Automation token with publish to @losi-ai on npmjs
 #   GITHUB_TOKEN — automatic in Actions (packages: write)
 
 name: Publish packages
@@ -76,8 +71,6 @@ jobs:
   publish-github-packages:
     needs: build
     runs-on: ubuntu-latest
-    # Soft-fail until a GitHub org named `losi-ai` exists (scope must match owner).
-    continue-on-error: true
     permissions:
       contents: read
       packages: write
@@ -110,7 +103,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          echo "Note: GPR requires a GitHub org/user named losi-ai for @losi-ai/*"
           for p in ${{ env.PKGS }}; do
             echo "=== gpr @losi-ai/$p ==="
             npm publish -w "@losi-ai/$p" --access public --registry=https://npm.pkg.github.com

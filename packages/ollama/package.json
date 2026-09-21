@@ -6,7 +6,7 @@
   "homepage": "https://losi.ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Marshmallowstudio/losi-context-bank.git",
+    "url": "https://github.com/losi-ai/losi-context-bank.git",
     "directory": "packages/ollama"
   },
   "keywords": [
