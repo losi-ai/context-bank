@@ -1,7 +1,7 @@
 # Publishing Losi Context Bank packages
 
 Packages are scoped **`@losi-ai/*`** in the monorepo
-[`losi-ai/losi-context-bank`](https://github.com/losi-ai/losi-context-bank).
+[`losi-ai/context-bank`](https://github.com/losi-ai/context-bank).
 
 ## Where they go
 

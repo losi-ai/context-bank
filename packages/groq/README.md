@@ -1,6 +1,6 @@
 # @losi-ai/groq
 
-Groq adapter for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Give Groq-hosted models persistent business context, then switch models without losing it.
+Groq adapter for [Losi Context Bank](https://github.com/losi-ai/context-bank). Give Groq-hosted models persistent business context, then switch models without losing it.
 
 ```bash
 npm install @losi-ai/core @losi-ai/groq groq-sdk

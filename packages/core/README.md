@@ -1,6 +1,6 @@
 # @losi-ai/core
 
-The context engine at the heart of [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Portable context for any LLM — switch models freely, your context stays.
+The context engine at the heart of [Losi Context Bank](https://github.com/losi-ai/context-bank). Portable context for any LLM — switch models freely, your context stays.
 
 ```bash
 npm install @losi-ai/core

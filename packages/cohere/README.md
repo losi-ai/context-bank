@@ -1,6 +1,6 @@
 # @losi-ai/cohere
 
-Cohere adapter for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Give Cohere persistent business context, then switch models without losing it.
+Cohere adapter for [Losi Context Bank](https://github.com/losi-ai/context-bank). Give Cohere persistent business context, then switch models without losing it.
 
 ```bash
 npm install @losi-ai/core @losi-ai/cohere cohere-ai

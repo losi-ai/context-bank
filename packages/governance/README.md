@@ -1,6 +1,6 @@
 # @losi-ai/governance
 
-Per-agent **governance policy engine** for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Spend caps, rate limits, blocked actions, data scopes, an audit log, and a kill switch.
+Per-agent **governance policy engine** for [Losi Context Bank](https://github.com/losi-ai/context-bank). Spend caps, rate limits, blocked actions, data scopes, an audit log, and a kill switch.
 
 ```bash
 npm install @losi-ai/core @losi-ai/governance

@@ -5,7 +5,7 @@ Thanks for helping build portable context infrastructure for LLMs. The two most 
 ## Setup
 
 ```bash
-git clone https://github.com/marshmallow-studio/losi-context-bank.git
+git clone https://github.com/losi-ai/context-bank.git
 cd losi-context-bank
 npm install
 npm run build      # builds every package (ESM + CJS + type declarations)

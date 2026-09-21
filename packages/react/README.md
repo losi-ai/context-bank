@@ -1,6 +1,6 @@
 # @losi-ai/react
 
-React provider and hooks for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Embed persistent LLM context, memory, and governance in any React app.
+React provider and hooks for [Losi Context Bank](https://github.com/losi-ai/context-bank). Embed persistent LLM context, memory, and governance in any React app.
 
 ```bash
 npm install @losi-ai/core @losi-ai/react react

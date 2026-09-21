@@ -1,6 +1,6 @@
 # @losi-ai/openai
 
-OpenAI (GPT) adapter for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Give GPT persistent business context, then switch to any other model without losing it.
+OpenAI (GPT) adapter for [Losi Context Bank](https://github.com/losi-ai/context-bank). Give GPT persistent business context, then switch to any other model without losing it.
 
 ```bash
 npm install @losi-ai/core @losi-ai/openai openai

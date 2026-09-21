@@ -1,6 +1,6 @@
 # @losi-ai/skills
 
-Reusable, multi-step agent **skills** for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Define parameterized skills, install them, persist them to hosted Losi, and govern save/run.
+Reusable, multi-step agent **skills** for [Losi Context Bank](https://github.com/losi-ai/context-bank). Define parameterized skills, install them, persist them to hosted Losi, and govern save/run.
 
 ```bash
 npm install @losi-ai/core @losi-ai/skills @losi-ai/governance

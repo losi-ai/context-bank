@@ -1,6 +1,6 @@
 # @losi-ai/nexus
 
-Nexus context binding for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank). Inject **CRM, bookings, and conversation** context into any LLM prompt.
+Nexus context binding for [Losi Context Bank](https://github.com/losi-ai/context-bank). Inject **CRM, bookings, and conversation** context into any LLM prompt.
 
 Works two ways: a **local data provider** (bring your own database or fixtures — fully offline, no account) or the **hosted Losi platform** (`apiKey` + `workspaceId` for live data).
 

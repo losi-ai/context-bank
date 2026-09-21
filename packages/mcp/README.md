@@ -1,6 +1,6 @@
 # @losi-ai/mcp
 
-MCP (Model Context Protocol) client for [Losi Context Bank](https://github.com/marshmallow-studio/losi-context-bank) with per-tool **data access scopes**. Every connection declares what it can and cannot see — enforced before any tool call.
+MCP (Model Context Protocol) client for [Losi Context Bank](https://github.com/losi-ai/context-bank) with per-tool **data access scopes**. Every connection declares what it can and cannot see — enforced before any tool call.
 
 ```bash
 npm install @losi-ai/core @losi-ai/mcp
