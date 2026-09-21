@@ -18,6 +18,8 @@ bun  add     @losi-ai/core @losi-ai/openai @losi-ai/ollama
 Published to **npmjs.org** (one registry → every package manager). Optional GitHub
 Packages mirror: see [docs/publishing.md](docs/publishing.md).
 
+[![skills.sh](https://skills.sh/b/losi-ai/context-bank?style=for-the-badge)](https://skills.sh/losi-ai/context-bank)
+
 ## Free vs hosted (honest)
 
 **Losi.ai is free to get started** — create an account, a workspace, and an API
@@ -97,19 +99,19 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
 
 ### 3. Installable skill
 
-Ship this folder into any skill-capable agent (Cursor, Claude Code, etc.):
-
-[`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKILL.md)
+Already on the open skills registry
+([skills.sh/losi-ai/context-bank/connect-losi-context](https://skills.sh/losi-ai/context-bank/connect-losi-context)):
 
 ```bash
-# example — copy into a project
-cp -R skills/connect-losi-context .cursor/skills/
-# or, when published on the skills registry:
-# npx skills add losi-ai/context-bank/skills/connect-losi-context
+npx skills add losi-ai/context-bank --skill connect-losi-context
+# or install the whole pack:
+npx skills add losi-ai/context-bank
 ```
 
+Source: [`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKILL.md)
+
 The skill tells the agent to prefer MCP, fall back to REST, verify `/session`,
-and never leak the API key.
+and never leak the API key. **Losi is free to get started.**
 
 ### 4. One-shot prompt
 

@@ -86,21 +86,17 @@ packages consume — you can drive them from Python, Go, shell, or a custom agen
 
 ## 3. Installable agent skill
 
-Skill path in this repo:
-
-[`skills/connect-losi-context/SKILL.md`](../skills/connect-losi-context/SKILL.md)
-
-Install into Cursor / compatible skill hosts (examples):
+Already published — install from the skills registry:
 
 ```bash
-# From GitHub (after clone or via skills CLI if you publish the path)
-npx skills add losi-ai/context-bank/skills/connect-losi-context
+npx skills add losi-ai/context-bank --skill connect-losi-context
 ```
 
-Or copy the folder into your project’s `.cursor/skills/connect-losi-context/`.
+- Page: https://skills.sh/losi-ai/context-bank/connect-losi-context  
+- Source: [`skills/connect-losi-context/SKILL.md`](../skills/connect-losi-context/SKILL.md)
 
 The skill teaches the agent to prefer MCP, fall back to REST, verify `/session`,
-and never leak the API key.
+and never leak the API key. Losi is free to get started.
 
 ---
 

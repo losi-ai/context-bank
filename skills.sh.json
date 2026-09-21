@@ -1,0 +1,11 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Losi Context",
+      "description": "Connect any LLM or agent to live Losi workspace context (Spaces, CRM, graph, skills) via MCP or the Context Bank API. Losi is free to get started.",
+      "skills": ["connect-losi-context"]
+    }
+  ]
+}
