@@ -14,11 +14,12 @@ as losi.ai): Spaces, Nexus CRM, knowledge graph, skills, and soul/identity.
 
 ## Prerequisites
 
-1. A **workspace-scoped** API key from [losi.ai](https://losi.ai) → Profile → API Access  
+1. **Losi is free to get started** — sign up at [losi.ai](https://losi.ai) if needed.
+2. A **workspace-scoped** API key from Profile → API Access  
    Format: `losi-…`  
    The workspace is implied by the key — do **not** ask for a workspace ID unless
    the API returns an error saying the key is user-scoped.
-2. Prefer **MCP** when the host supports it. Fall back to **REST** (`curl` /
+3. Prefer **MCP** when the host supports it. Fall back to **REST** (`curl` /
    `fetch`) when MCP is unavailable.
 
 ## Preferred: Losi MCP

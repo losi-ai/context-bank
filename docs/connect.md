@@ -1,5 +1,9 @@
 # Connect Losi context to any LLM
 
+**Losi is free to get started.** Create an account at [losi.ai](https://losi.ai),
+make a workspace-scoped API key (Profile → API Access), and connect — no paid
+plan required to try MCP, Context Bank REST, or the open-source SDK.
+
 You do **not** need the TypeScript SDK to use Losi context. Pick a path:
 
 | Path | Best for | Needs |
@@ -10,7 +14,7 @@ You do **not** need the TypeScript SDK to use Losi context. Pick a path:
 | **Copy-paste prompt** | ChatGPT / Claude / Gemini web chats | Paste + key |
 | **SDK (`@losi-ai/*`)** | Apps you ship in Node/React | npm install |
 
-Create a **workspace-scoped** key: [losi.ai](https://losi.ai) → Profile → API Access.  
+Create a **workspace-scoped** key (free to start): [losi.ai](https://losi.ai) → Profile → API Access.  
 Format `losi-…`. The workspace is implied — no `workspaceId` in normal calls.
 
 Public product docs: https://losi.ai/docs/context-bank

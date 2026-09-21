@@ -1,9 +1,9 @@
 # Hosted Platform
 
-The SDK is free and MIT-licensed. Live business data — real CRM, bookings,
-workspace, skills, and the cross-surface knowledge graph — comes from the hosted
-Losi platform at [losi.ai](https://losi.ai). This is the open-core split: the SDK
-is yours; the hosted context, governance UI, and data live on the platform.
+The SDK is free and MIT-licensed. **Losi is free to get started** — create an
+account at [losi.ai](https://losi.ai), make a workspace-scoped API key, and pull
+live CRM, bookings, Spaces, skills, and the knowledge graph. The open-core
+split: the SDK is yours; hosted context and data live on the platform.
 
 ## Connect
 

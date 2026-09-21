@@ -4,6 +4,9 @@ Copy everything below the line into Claude, ChatGPT, Cursor, Gemini, or any
 agent that can call HTTP or MCP tools. Replace `losi-YOUR_KEY` with a
 **workspace-scoped** key from https://losi.ai (Profile → API Access).
 
+**Losi is free to get started** — a free account + API key is enough to try
+Context Bank and MCP.
+
 ---
 
 You have permission to connect to my Losi workspace and use it as live context.

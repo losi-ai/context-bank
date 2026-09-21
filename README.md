@@ -4,6 +4,10 @@
 
 Day one: keep a snapshot of what the model knows, swap GPT ↔ Claude ↔ Gemini, and nothing resets. Everything else (CRM, graph, skills, governance) is opt-in.
 
+**Losi is free to get started.** Sign up at [losi.ai](https://losi.ai), create a
+workspace-scoped API key, and connect MCP / REST / this SDK — no paid plan
+required to try Context Bank, Spaces context, or the open-source packages.
+
 ```bash
 npm  install @losi-ai/core @losi-ai/openai @losi-ai/ollama
 yarn add     @losi-ai/core @losi-ai/openai @losi-ai/ollama
@@ -16,13 +20,17 @@ Packages mirror: see [docs/publishing.md](docs/publishing.md).
 
 ## Free vs hosted (honest)
 
-| | No Losi account | Workspace-scoped `LOSI_API_KEY` |
+**Losi.ai is free to get started** — create an account, a workspace, and an API
+key at no charge for getting Context Bank / MCP wired into your agents.
+
+| | No Losi account | Free Losi account + workspace key |
 | --- | --- | --- |
 | Adapters + `LosiContext` + snapshots | ✅ | ✅ |
 | Local / your own `SnapshotStore` | ✅ | ✅ |
 | Live CRM / Spaces / graph from Losi | ❌ | ✅ |
 | Save/run skills on Losi (`workspace_skills`) | ❌ | ✅ |
 | Governance audit ingest | local only | ✅ hosted sink |
+| MCP (`https://losi.ai/api/mcp`) | ❌ | ✅ |
 
 Prefer a **workspace-scoped** API key — pick the workspace when you create the
 key. After that, **never pass `workspaceId` again**. MCP and Context Bank imply
@@ -282,6 +290,7 @@ snapshot across them. Complementary, not a replacement.
 
 The SDK is MIT. Live CRM, Spaces, graph, and skill persistence run on **[losi.ai](https://losi.ai)** behind a workspace-scoped API key.
 
+- **Free to start** — [losi.ai](https://losi.ai) account + API key to try hosted context, MCP, and skills.
 - **Free SDK** — adapters, snapshots, local stores — everything in this repo without an account.
 - **Hosted** — same Losi workspace data the product uses; see [docs/hosted.md](docs/hosted.md).
 - **Any LLM** — MCP + REST + skill + prompt (no SDK required); see [docs/connect.md](docs/connect.md).
