@@ -1,11 +1,12 @@
 # Prompt: Connect this chat to my Losi context
 
-Copy everything below the line into Claude, ChatGPT, Cursor, Gemini, or any
-agent that can call HTTP or MCP tools.
+**Copy-paste** everything below the line into Claude, ChatGPT, Cursor, Gemini,
+or any agent that can call HTTP or MCP tools.
 
-**Do not paste your API key into the chat.** If this host has a secret vault /
-credential store / env vars, use that. Otherwise ask me how to inject
-`LOSI_API_KEY` safely (settings UI, `.env`, OS keychain) — never echo it back.
+**Key advice (not about the prompt):** do not paste your API key into the chat.
+If this host has a secret vault / credential store / env vars, use
+`LOSI_API_KEY` from there. Otherwise ask how to set it in settings / `.env` /
+keychain — never echo the key back.
 
 **Losi is free to get started** — a free account + API key is enough to try
 Context Bank and MCP.

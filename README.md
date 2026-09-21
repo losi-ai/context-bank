@@ -49,7 +49,7 @@ or your own agent — **without** shipping TypeScript:
 | **[MCP](#1-mcp--claude-cursor-codex)** | The host supports Model Context Protocol |
 | **[REST API](#2-context-bank-rest-api)** | Anything that can `curl` / `fetch` |
 | **[Agent skill](#3-installable-skill)** | Cursor / Claude Code skill installs |
-| **[Connect prompt](#4-connect-prompt)** | Web chats — paste the prompt only (key stays in vault/env) |
+| **[Copy-paste prompt](#4-copy-paste-prompt)** | Web chats — copy the prompt in; keep the key in vault/env |
 
 Full guide: **[docs/connect.md](docs/connect.md)** · Product docs: https://losi.ai/docs/context-bank
 
@@ -117,12 +117,14 @@ Source: [`skills/connect-losi-context/SKILL.md`](skills/connect-losi-context/SKI
 The skill prefers vault/env for secrets, then MCP, then REST — and never asks
 you to paste a key into chat. **Losi is free to get started.**
 
-### 4. Connect prompt
+### 4. Copy-paste prompt
 
-Paste [`prompts/connect-losi-context.md`](prompts/connect-losi-context.md) into
-any chat model **without** putting your key in the message. The prompt tells
-the agent to read `LOSI_API_KEY` from vault/env. If it cannot call tools, it
-returns MCP/curl templates that still use `$LOSI_API_KEY`.
+Copy-paste [`prompts/connect-losi-context.md`](prompts/connect-losi-context.md)
+into any chat model. That part is intentional.
+
+**Key advice only:** do not put your `losi-…` key in the message — the prompt
+tells the agent to use vault / `LOSI_API_KEY` instead. If it cannot call tools,
+it returns MCP/curl templates that still use `$LOSI_API_KEY`.
 
 ---
 

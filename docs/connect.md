@@ -11,7 +11,7 @@ You do **not** need the TypeScript SDK to use Losi context. Pick a path:
 | **MCP** | Claude Desktop, Cursor, Codex, other MCP clients | Key in vault / env |
 | **REST API** | Any model/tool that can `fetch` / `curl` | Key in vault / env |
 | **Agent skill** | Cursor / Claude Code skill installs | This repo’s `SKILL.md` |
-| **Connect prompt** | ChatGPT / Claude / Gemini web chats | Prompt only — **no key in chat** |
+| **Copy-paste prompt** | ChatGPT / Claude / Gemini web chats | Copy the prompt in; key from vault/env |
 | **SDK (`@losi-ai/*`)** | Apps you ship in Node/React | `process.env.LOSI_API_KEY` |
 
 ## Secrets (read this)
@@ -106,14 +106,14 @@ the key into chat.
 
 ---
 
-## 4. Connect prompt (any chat LLM)
+## 4. Copy-paste prompt (any chat LLM)
 
-Open [`prompts/connect-losi-context.md`](../prompts/connect-losi-context.md) and
-paste **only the prompt** into the chat. The prompt instructs the model to read
-`LOSI_API_KEY` from vault/env — **not** from the message.
+Copy-paste [`prompts/connect-losi-context.md`](../prompts/connect-losi-context.md)
+into the chat — that’s the point.
 
-If the model can call tools/HTTP, it connects itself. If not, it should return
-MCP JSON / curl using `$LOSI_API_KEY` placeholders.
+Keep the **API key** out of the message: vault / `LOSI_API_KEY` only. The prompt
+already instructs the model that way. If it cannot call tools/HTTP, it should
+return MCP JSON / curl using `$LOSI_API_KEY` placeholders.
 
 ---
 
