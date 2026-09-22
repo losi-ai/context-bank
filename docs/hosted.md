@@ -39,7 +39,8 @@ Base URL: `https://losi.ai/api/v1/context-bank` (override via `baseUrl`).
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | `/session` | Optional: return the workspace bound to the key |
+| GET | `/session` |
+| GET | `/search?q=` | Workspace-wide search | Optional: return the workspace bound to the key |
 | GET | `/nexus/{contacts\|bookings\|conversations}?q=&limit=` | CRM context (key-implied workspace) |
 | GET | `/spaces/{tasks\|notes\|events\|sheets}?q=&limit=` | Workspace context (key-implied workspace) |
 | GET | `/graph?nodeType=&search=&limit=` | Graph nodes (key-implied workspace) |

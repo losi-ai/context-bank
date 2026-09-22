@@ -100,6 +100,7 @@ Do not invent tool names — only call tools returned by `tools/list`.
 | Method | Path | Use |
 | --- | --- | --- |
 | GET | `/session` | Confirm key → workspace binding |
+| GET | `/search?q=` | Workspace-wide Context Bank search |
 | GET | `/spaces/tasks?limit=25` | Tasks |
 | GET | `/spaces/notes?limit=25` | Notes |
 | GET | `/nexus/contacts?limit=25` | CRM (needs `nexus:read` + Nexus plan) |

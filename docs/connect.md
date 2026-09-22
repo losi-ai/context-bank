@@ -107,7 +107,8 @@ curl -sS https://losi.ai/api/mcp \
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | `/session` | Workspace bound to the key |
+| GET | `/session` |
+| GET | `/search?q=&limit=&types=` | Workspace-wide search | Workspace bound to the key |
 | GET | `/spaces/{tasks\|notes\|events\|sheets}` | Spaces data |
 | GET | `/nexus/{contacts\|bookings\|conversations}` | CRM data |
 | GET | `/graph` | Knowledge graph |

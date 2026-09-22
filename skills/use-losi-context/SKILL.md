@@ -38,6 +38,7 @@ Only call names returned by `tools/list`. Typical families:
 | `losiSpaces__*` | Spaces CRUD: tasks, notes, sheets, events, files, **Space memories**, Space Reference Memories |
 | `losiNexus__run` | Full Nexus CRM (leads, contacts, companies, opportunities, campaigns, …). Needs Nexus subscription + `nexus:*` on the key |
 | `losiContext__session` | Confirm workspace binding |
+| `losiContext__search` | **Whole-bank search** (Spaces, memories, graph, skills, soul, Nexus when allowed) — prefer this over per-resource scans |
 | `losiContext__graph` | Knowledge graph search / neighborhood |
 | `losiContext__soul` | Assistant soul / identity |
 | `losiContext__skills_list` | List saved skills |
@@ -51,6 +52,7 @@ explicitly agrees (especially Nexus writes / sends).
 **Base:** `https://losi.ai/api/v1/context-bank`
 
 - Session: `GET /session`
+- **Search whole bank:** `GET /search?q=&limit=&types=` (prefer over scanning each resource)
 - Spaces: `GET /spaces/{tasks|notes|events|sheets}`
 - Nexus (needs `nexus:read` + Nexus subscription): `GET /nexus/{contacts|leads|companies|opportunities|activities|campaigns|bookings|conversations}`
 - Graph: `GET /graph`
@@ -64,14 +66,15 @@ prefer MCP `tools/call` when available.
 ## Autonomy rules
 
 1. **Pull before you guess.** Prefer live Losi data over assumptions.
-2. **Narrowest write.** Prefer Space / workspace memory over personal; prefer
+2. **Search first.** Use `losiContext__search` / `GET /search?q=` before listing every resource type.
+3. **Narrowest write.** Prefer Space / workspace memory over personal; prefer
    updating an existing record over creating duplicates.
-3. **Stay in scope.** Respect governed keys (space pins, memory scopes, Nexus
+4. **Stay in scope.** Respect governed keys (space pins, memory scopes, Nexus
    areas). If a tool 403s, explain the pin — don't loop.
-4. **Batch reads.** List/search first, then get by id.
-5. **Persist durable facts** using `store-losi-context` when the user teaches
+5. **Batch reads.** List/search first, then get by id.
+6. **Persist durable facts** using `store-losi-context` when the user teaches
    something that should survive this chat.
-6. **Never print** the full API key.
+7. **Never print** the full API key.
 
 ## Done means
 
