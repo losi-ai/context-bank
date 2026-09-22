@@ -138,9 +138,9 @@ curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/i
 
 What it does:
 
-1. `npx skills add losi-ai/context-bank` (all four skills below)
+1. `npx skills add losi-ai/context-bank --all` (all four skills below)
 2. Merges [`mcp/losi.mcp.json`](../mcp/losi.mcp.json) into `.cursor/mcp.json`
-   and `~/.cursor/mcp.json` (and Claude Code when `claude` is on PATH)
+   and `~/.cursor/mcp.json` (and Claude Code when available)
 
 Skills-only (no MCP write):
 
@@ -150,10 +150,12 @@ npx skills add losi-ai/context-bank --all
 
 | Skill | Purpose |
 | --- | --- |
-| [`connect-losi-context`](https://skills.sh/losi-ai/context-bank/connect-losi-context) | Wire MCP/REST + vault key; verify session |
-| [`use-losi-context`](https://skills.sh/losi-ai/context-bank/use-losi-context) | Autonomously read Spaces / Nexus / graph / skills / soul / memories |
-| [`store-losi-context`](https://skills.sh/losi-ai/context-bank/store-losi-context) | Autonomously write durable facts back into the bank |
-| [`migrate-to-losi-context`](https://skills.sh/losi-ai/context-bank/migrate-to-losi-context) | On first use, ask whether to migrate local notes/prefs into Losi |
+| [`connect-losi-context`](../skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; pull siblings when missing |
+| [`use-losi-context`](../skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
+| [`store-losi-context`](../skills/store-losi-context/SKILL.md) | Autonomously write durable facts back into the bank |
+| [`migrate-to-losi-context`](../skills/migrate-to-losi-context/SKILL.md) | On first use, ask whether to migrate local notes/prefs into Losi |
+
+Pack: https://skills.sh/losi-ai/context-bank  
 
 All prefer vault/env for `LOSI_API_KEY` — never paste the key into chat.
 

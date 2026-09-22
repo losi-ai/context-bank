@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Losi Context",
-      "description": "Connect any LLM or agent to live Losi workspace context (Spaces, CRM, graph, skills, memories) via MCP or the Context Bank API. Losi is free to get started.",
+      "description": "Connect any LLM or agent to live Losi workspace context (Spaces, CRM, graph, skills, memories, search) via MCP or the Context Bank API — then use, store, and migrate context autonomously. Losi is free to get started.",
       "skills": [
         "connect-losi-context",
         "use-losi-context",

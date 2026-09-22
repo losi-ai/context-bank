@@ -113,16 +113,18 @@ Skills-only ([skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-
 
 ```bash
 npx skills add losi-ai/context-bank --all
+# or one: npx skills add losi-ai/context-bank --skill connect-losi-context
 ```
 
 | Skill | Purpose |
 | --- | --- |
-| [`connect-losi-context`](skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key |
-| [`use-losi-context`](skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / skills / soul / memories |
+| [`connect-losi-context`](skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; points agents at siblings |
+| [`use-losi-context`](skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
 | [`store-losi-context`](skills/store-losi-context/SKILL.md) | Autonomously write durable facts into the bank |
 | [`migrate-to-losi-context`](skills/migrate-to-losi-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
 
-MCP template: [`mcp/losi.mcp.json`](mcp/losi.mcp.json). All prefer vault/env for
+`connect-losi-context` tells agents to pull the other three when missing.
+MCP template: [`mcp/losi.mcp.json`](mcp/losi.mcp.json). Prefer vault/env for
 secrets — never paste a key into chat. **Losi is free to get started.**
 
 ### 4. Copy-paste prompt

@@ -5,62 +5,84 @@ description: >-
   tasks/notes, knowledge graph, skills, soul, memories) via Losi MCP or the
   Context Bank REST API. Use when the user wants Losi context in Claude, Cursor,
   ChatGPT, Codex, or another tool without writing SDK code. Prefer vault/env for
-  the API key — never ask them to paste losi-… into chat.
+  the API key — never ask them to paste losi-… into chat. After connect, load
+  sibling skills use-losi-context, store-losi-context, and migrate-to-losi-context
+  from the same pack when missing.
 ---
 
 # Connect Losi Context
 
-Give the current agent access to the user's **real Losi workspace** (same data
-as losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul/identity, and
-memories.
+Wire the current agent to the user's **live Losi workspace** (same data as
+losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul, and memories.
+
+## Full pack — pull siblings autonomously
+
+This skill is the **on-ramp**. Same pack ships three more — load them when the
+job needs them (do not wait for the user to name each one):
+
+| Skill | When |
+| --- | --- |
+| `migrate-to-losi-context` | First successful connect in a conversation |
+| `use-losi-context` | Read/act on live Spaces / Nexus / graph / memories / search |
+| `store-losi-context` | Persist durable facts, skills, Space/workspace memories |
+
+If only this skill is installed:
+
+```bash
+npx skills add losi-ai/context-bank --all
+```
+
+Skills + MCP config:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
+```
+
+Pack: https://skills.sh/losi-ai/context-bank
 
 ## Prerequisites
 
-1. **Losi is free to get started** — sign up at [losi.ai](https://losi.ai) if needed.
-2. A **workspace-scoped** API key from Profile → API Access (format `losi-…`).
-   The workspace is implied by the key — do **not** ask for a workspace ID unless
-   the API returns an error saying the key is user-scoped.
-3. Prefer **MCP** when the host supports it. Fall back to **REST** when MCP is
-   unavailable.
+1. Free Losi account — [losi.ai](https://losi.ai)
+2. **Workspace-scoped** API key (Profile → API Access, `losi-…`). Workspace is
+   implied — do not ask for `workspaceId` unless the API says the key is user-scoped.
+3. Prefer **MCP**; fall back to **REST**.
 
 ## Secrets — vault first
 
-**Never ask the user to paste an API key into the chat.**
+**Never ask the user to paste an API key into chat.**
 
-Resolve the key in this order:
-
-1. Host **vault / credential store / secret picker** (Cursor Private vault,
-   Claude secrets, IDE secret manager, etc.)
-2. Process environment: `LOSI_API_KEY`
-3. Existing MCP server config that already injects the header
-4. Only then: tell the user how to **set** the secret in settings / `.env` /
-   keychain — still without pasting it into the transcript
+1. Host vault / credential store
+2. `LOSI_API_KEY` env
+3. Existing MCP config that already injects the header
+4. Tell them how to **set** the secret in settings — still without pasting it
 
 Never print, log, or commit the full key.
 
-## Preferred: Losi MCP (any MCP-capable host)
+## Key permissions (create with what you need)
 
-**Endpoint:** `https://losi.ai/api/mcp`  
-(also `https://www.losi.one/api/mcp`)
-
-**Auth:** `Authorization: Bearer` + vault/env (`LOSI_API_KEY`).
-
-Works wherever the host can add a **remote HTTPS MCP** connector — Claude
-(Desktop / Code / Connectors), ChatGPT Developer Mode apps/connectors, Cursor,
-Codex, Gemini CLI / Enterprise, Windsurf, etc. Same URL everywhere. Consumer
-Gemini web/app usually has no custom MCP — use REST or the copy-paste prompt.
-
-| Host | Add as |
+| Permission | Unlocks |
 | --- | --- |
-| Cursor | `.cursor/mcp.json` or Settings → MCP |
-| Claude | Connectors / `mcpServers` JSON |
-| ChatGPT | Developer mode → Apps → connector URL |
-| Gemini CLI | `httpUrl` in `~/.gemini/settings.json` |
-| Others | Remote MCP URL + Bearer header |
+| `spaces:read` / `spaces:write` / `spaces:admin` | Spaces MCP + Space memories + Spaces tools |
+| `nexus:read` / `nexus:write` | Nexus MCP + CRM tools (**needs active Nexus subscription**) |
+| `memories:personal:*` / `memories:workspace:*` | Personal / workspace memory MCP + REST |
+| `spaces:read` **or** `nexus:read` **or** `tools` **or** memory scopes | `losiContext__*` helpers (session, search, graph, soul, skills_list) |
 
-### Cursor / Claude Desktop style config
+**Governed keys** may pin `spaceIds`, `memoryScopes` (`personal` / `workspace` /
+`space` / `space_reference`), `nexusAreas`, and `allowedTools`. Respect 403s —
+explain the pin; do not loop.
 
-Use env substitution — do not hard-code the secret in files you paste into chat:
+## Preferred: Losi MCP
+
+**URL:** `https://losi.ai/api/mcp` (also `https://www.losi.one/api/mcp`)  
+**Auth:** `Authorization: Bearer` + vault/env (`LOSI_API_KEY`)
+
+| Host | Where |
+| --- | --- |
+| Cursor | `.cursor/mcp.json` / Settings → MCP |
+| Claude | Connectors / `mcpServers` |
+| ChatGPT | Developer mode → connector URL |
+| Gemini CLI | `httpUrl` in settings |
+| Codex / Windsurf / others | Remote MCP URL + Bearer |
 
 ```json
 {
@@ -75,83 +97,60 @@ Use env substitution — do not hard-code the secret in files you paste into cha
 }
 ```
 
-After connecting, call `tools/list`. Typical families (permission-dependent):
+After connect: `tools/list`. Families (permission-dependent):
 
-- `losiSpaces__*` — Spaces + Space memories
-- `losiNexus__run` — Nexus CRM (needs Nexus subscription on the key)
-- `losiContext__*` — session, graph, soul, skills list
-- `losiMemory__*` — personal + workspace memories
+| Family | Surface |
+| --- | --- |
+| `losiSpaces__*` | Spaces CRUD + **Space memories** + Space Reference Memories |
+| `losiNexus__run` | Full Nexus CRM (subscription + `nexus:*`) |
+| `losiContext__session` | Key → workspace binding |
+| `losiContext__search` | **Whole-bank search** — prefer over per-resource scans |
+| `losiContext__graph` | Knowledge graph list / neighborhood |
+| `losiContext__soul` | Assistant soul / identity |
+| `losiContext__skills_list` | Saved workspace skills |
+| `losiMemory__*` | `list/create/delete` Personal + Workspace memories |
 
-Workspace is injected from the key.
+Handshake if configuring manually: `initialize` → `tools/list` → `tools/call`.
+Only call names returned by `tools/list`.
 
-### MCP handshake (if configuring manually)
-
-1. `initialize`
-2. `tools/list`
-3. `tools/call` with `{ "name": "…", "arguments": { … } }`
-
-Do not invent tool names — only call tools returned by `tools/list`.
-
-## Fallback: Context Bank REST API
+## Fallback: Context Bank REST
 
 **Base:** `https://losi.ai/api/v1/context-bank`  
-**Auth:** `Authorization: Bearer` + vault/env secret.
+**Auth:** Bearer from vault/env.
 
 | Method | Path | Use |
 | --- | --- | --- |
-| GET | `/session` | Confirm key → workspace binding |
-| GET | `/search?q=` | Workspace-wide Context Bank search |
-| GET | `/spaces/tasks?limit=25` | Tasks |
-| GET | `/spaces/notes?limit=25` | Notes |
-| GET | `/nexus/contacts?limit=25` | CRM (needs `nexus:read` + Nexus plan) |
-| GET | `/graph?limit=25` | Knowledge graph nodes |
-| GET | `/skills` | Saved executable skills |
-| GET | `/soul` | Losi identity / soul.md |
-| GET | `/memories/personal` | Personal memories |
-| GET | `/memories/workspace` | Workspace memories |
+| GET | `/session` | Confirm workspace binding |
+| GET | `/search?q=&limit=&types=` | Workspace-wide search |
+| GET | `/spaces/{tasks\|notes\|events\|sheets}` | Spaces reads |
+| GET | `/nexus/{contacts\|leads\|companies\|opportunities\|activities\|campaigns\|bookings\|conversations}` | CRM reads (Nexus plan + `nexus:read`) |
+| GET | `/memories/{personal\|workspace}` | Memories |
+| GET | `/graph` | Graph nodes / neighborhood |
+| GET/POST | `/skills` | List / save skills |
+| GET/PATCH/DELETE | `/skills/{id}` | Manage skill |
+| POST | `/skills/{id}/run` | Run skill |
+| GET | `/soul` | Soul / identity |
 
-Example (shell — secret from env, not the prompt):
+`types=` for search: `space,task,note,event,space_memory,space_reference_memory,graph_node,skill,soul,personal_memory,workspace_memory,contact,booking`.
+
+CRM **writes**: MCP `losiNexus__run` or `POST /api/v1/nexus/tools` with `nexus:write`.
 
 ```bash
 curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-## After connect — stay autonomous
+## After connect
 
-1. **Verify** with `/session` or MCP `tools/list` before claiming access.
-2. Run **`migrate-to-losi-context`** once (ask whether to migrate existing
-   notes/prefs into the context engine).
-3. Operate with **`use-losi-context`**; persist durable facts with
-   **`store-losi-context`**.
-4. **Never print the full API key**.
-5. If auth fails (401/403), guide them to create/rotate a workspace-scoped key
-   in losi.ai settings and store it in the host vault — do not collect the key
-   in chat.
-
-## Install (skills + MCP together)
-
-`npx skills add` installs **skills only** — it does not register MCP servers.
-Use the bundle installer when you want both:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
-```
-
-That installs all four skills and merges `losi` into `.cursor/mcp.json` /
-`~/.cursor/mcp.json` (and Claude Code when available). Template only:
-[`mcp/losi.mcp.json`](https://github.com/losi-ai/context-bank/blob/main/mcp/losi.mcp.json).
-
-Skills-only:
-
-```bash
-npx skills add losi-ai/context-bank --all
-```
-
-Or the pack page: https://www.skills.sh/losi-ai/context-bank/connect-losi-context
+1. Verify `/session` or `tools/list`.
+2. If siblings missing → `npx skills add losi-ai/context-bank --all`.
+3. Run **`migrate-to-losi-context`** once.
+4. Operate with **`use-losi-context`**; persist with **`store-losi-context`**.
+5. Never print the full API key.
+6. On 401/403: guide to workspace-scoped key + vault — do not collect the key in chat.
 
 ## Docs
 
-- Hosted API: https://losi.ai/docs/context-bank
-- GitHub: https://github.com/losi-ai/context-bank
-- npm: https://www.npmjs.com/org/losi-ai
+- https://losi.ai/docs/context-bank
+- https://github.com/losi-ai/context-bank
+- https://www.npmjs.com/org/losi-ai

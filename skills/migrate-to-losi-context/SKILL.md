@@ -2,30 +2,40 @@
 name: migrate-to-losi-context
 description: >-
   On first Context Bank use in a conversation, ask whether to migrate existing
-  notes, prefs, and agent memory into the Losi context engine (Context Bank).
-  Use when connecting to Losi for the first time, importing from another tool,
-  or when the user mentions moving context into Losi.
+  notes, prefs, and agent memory into the Losi context engine (Context Bank:
+  personal/workspace/Space memories, skills, CRM). Use when connecting to Losi
+  for the first time, importing from another tool, or when the user mentions
+  moving context into Losi. Pull connect/use/store siblings from
+  losi-ai/context-bank when missing.
 ---
 
 # Migrate to Losi Context Engine
 
-On **first successful Losi Context Bank / MCP connect** in a conversation, ask
+On **first successful** Losi Context Bank / MCP connect in a conversation, ask
 once whether to migrate existing material into Losi. Keep it short. Stay
 autonomous after they answer.
 
-## When to ask (exactly once per conversation)
+## Pack siblings (pull if missing)
+
+```bash
+npx skills add losi-ai/context-bank --all
+```
+
+- `connect-losi-context` — wire MCP/REST
+- `use-losi-context` — operate after migrate
+- `store-losi-context` — write each migrated item
+
+## When to ask (once per conversation)
 
 Ask after session/`tools/list` succeeds **and** any of:
 
-- This is the first Losi connect in the thread
-- User says they are new to Context Bank / context engine
-- User mentions ChatGPT memory, Notion dumps, local notes, or another agent
-  store they want Losi to own
+- First Losi connect in the thread
+- User is new to Context Bank / context engine
+- User mentions ChatGPT memory, Notion dumps, local notes, or another agent store
 
-**Do not** re-ask every turn. Record their answer in-session (“migrated” /
-“declined” / “later”).
+**Do not** re-ask every turn. Record: migrated / declined / later.
 
-## The ask (copy tone, adapt lightly)
+## The ask
 
 > I can keep working against your live Losi workspace now. Want me to **migrate**
 > useful notes, preferences, and procedures into the Losi context engine
@@ -33,40 +43,29 @@ Ask after session/`tools/list` succeeds **and** any of:
 > across chats and tools?  
 > Reply **yes** (I’ll propose what to move), **no**, or **later**.
 
-If they already have rich Losi data, add: “I’ll only add net-new facts — no
-duplicates.”
+If they already have rich Losi data: “I’ll only add net-new facts — no duplicates.”
 
-## If they say yes
+## If yes
 
-1. Inventory candidates (local files they pointed at, prior chat prefs, pasted
-   docs, exported JSON/Markdown). Do **not** scrape private stores without
-   permission.
-2. Propose a short plan: what goes to **personal** vs **workspace** vs **Space**
-   vs **skill** vs **Nexus**.
-3. Get a single confirmation on the plan (bulk OK).
-4. Execute with `store-losi-context` (dedup first).
-5. Summarize: counts by scope + notable ids. Offer `use-losi-context` next.
+1. Inventory candidates they pointed at (files, prefs, pasted docs). Do not scrape private stores without permission.
+2. Plan scopes: **personal** / **workspace** / **Space memory** / **Space Reference Memory** / **skill** / **Nexus**.
+3. One confirmation on the plan (bulk OK).
+4. Dedup with `losiContext__search` / memory lists, then execute via **`store-losi-context`**.
+5. Summarize counts by scope + notable ids. Continue with **`use-losi-context`**.
 
-## If they say no / later
+## If no / later
 
-Continue with `use-losi-context` using live Losi data only. Mention they can
-revisit migration anytime (“migrate my notes into Losi”).
+Continue with `use-losi-context` on live Losi data only. They can say “migrate my notes into Losi” anytime.
 
-## What “context engine” means here
+## What “context engine” means
 
-Losi **Context Bank**: hosted MCP + REST that binds a workspace-scoped key to
-Spaces, Nexus (when subscribed), graph, skills, soul, and memories — portable
-across Claude, Cursor, Codex, and apps via `@losi-ai/*`.
+Losi **Context Bank**: hosted MCP + REST bound to a workspace-scoped key —
+Spaces, Nexus (when subscribed), graph, skills, soul, memories — portable
+across Claude, Cursor, Codex, and `@losi-ai/*`.
 
 ## Safety
 
 - Never migrate secrets or paste API keys into chat.
 - Prefer vault/env for `LOSI_API_KEY`.
-- Respect governed key pins and missing permissions (explain blockers).
-- Don’t wipe existing Losi memories unless the user explicitly asks to replace.
-
-## Related
-
-- `connect-losi-context` — wire MCP/REST
-- `use-losi-context` — operate autonomously after connect
-- `store-losi-context` — write memories/skills/CRM facts
+- Respect governed pins and missing permissions.
+- Don’t wipe existing Losi memories unless explicitly asked to replace.
