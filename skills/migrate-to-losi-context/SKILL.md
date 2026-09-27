@@ -5,8 +5,7 @@ description: >-
   notes, prefs, and agent memory into the Losi context engine (Context Bank:
   personal/workspace/Space memories, skills, CRM). Use when connecting to Losi
   for the first time, importing from another tool, or when the user mentions
-  moving context into Losi. Pull connect/use/store siblings from
-  losi-ai/context-bank when missing.
+  moving context into Losi. Pull connect/use/store siblings from this same skill pack when missing.
 ---
 
 # Migrate to Losi Context Engine
@@ -21,10 +20,7 @@ autonomous after they answer.
 - `use-losi-context` — operate after migrate
 - `store-losi-context` — write each migrated item
 
-If a sibling is missing, ask the user to install the pack from
-[skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-or open the matching `skills/<name>/SKILL.md` in this repo.
-**Do not** run remote installers or package managers to fetch skills at runtime.
+If a sibling is missing, open the matching `skills/<name>/SKILL.md` already in this pack (or ask the user to install the full pack from the skills registry). Do not download or execute remote skill installers at runtime.
 
 ## When to ask (once per conversation)
 
