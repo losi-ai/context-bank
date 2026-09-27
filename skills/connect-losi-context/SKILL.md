@@ -26,10 +26,10 @@ job needs them (do not wait for the user to name each one):
 | `use-losi-context` | Read/act on live Spaces / Nexus / graph / memories / search |
 | `store-losi-context` | Persist durable facts, skills, Space/workspace memories |
 
-If a sibling is missing from the current agent, ask the user to install the
-full pack from [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-(or open the matching SKILL.md already in this repo under `skills/`).
-**Do not** download or execute remote skill installers at runtime.
+If a sibling is missing from the current agent, open the matching
+`skills/<name>/SKILL.md` already in this pack (or ask the user to install the
+full pack from the skills registry). Do not download or execute remote skill
+installers at runtime.
 
 ## Prerequisites
 
@@ -132,9 +132,8 @@ Session check: `GET https://losi.ai/api/v1/context-bank/session` with
 ## After connect
 
 1. Verify `/session` or `tools/list`.
-2. If siblings missing → point the user at
-   [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-   (install from the registry yourself — do not have the agent fetch installers).
+2. If siblings missing → open their `skills/<name>/SKILL.md` in this pack
+   (or ask the user to install the full pack from the skills registry).
 3. Run **`migrate-to-losi-context`** once.
 4. Operate with **`use-losi-context`**; persist with **`store-losi-context`**.
 5. Never print the full API key.
