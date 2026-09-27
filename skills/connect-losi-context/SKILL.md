@@ -29,8 +29,7 @@ job needs them (do not wait for the user to name each one):
 If a sibling is missing from the current agent, ask the user to install the
 full pack from [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
 (or open the matching SKILL.md already in this repo under `skills/`).
-**Do not** run remote installers, `curl | bash`, or package managers to fetch
-skills at runtime.
+**Do not** download or execute remote skill installers at runtime.
 
 ## Prerequisites
 
@@ -127,19 +126,15 @@ Only call names returned by `tools/list`.
 
 CRM **writes**: MCP `losiNexus__run` or `POST /api/v1/nexus/tools` with `nexus:write`.
 
-Session check (key already in env — do not echo it):
-
-```bash
-curl -sS https://losi.ai/api/v1/context-bank/session \
-  -H "Authorization: Bearer $LOSI_API_KEY"
-```
+Session check: `GET https://losi.ai/api/v1/context-bank/session` with
+`Authorization: Bearer` from vault/env (`LOSI_API_KEY`). Do not echo the key.
 
 ## After connect
 
 1. Verify `/session` or `tools/list`.
 2. If siblings missing → point the user at
    [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-   (do not run remote installers yourself).
+   (install from the registry yourself — do not have the agent fetch installers).
 3. Run **`migrate-to-losi-context`** once.
 4. Operate with **`use-losi-context`**; persist with **`store-losi-context`**.
 5. Never print the full API key.

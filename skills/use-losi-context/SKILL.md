@@ -6,7 +6,7 @@ description: >-
   soul, personal/workspace memories, and workspace-wide search via MCP or REST.
   Use when the agent should read and act on live Losi workspace data without
   waiting for step-by-step instructions. Pull connect/store/migrate siblings
-  from losi-ai/context-bank when missing.
+  from this same skill pack when missing.
 ---
 
 # Use Losi Context Autonomously
@@ -22,10 +22,7 @@ Fall back to Context Bank REST. Key stays in vault/env — never paste into chat
 | `store-losi-context` | Persist durable facts after learning |
 | `migrate-to-losi-context` | First-connect migration ask |
 
-If a sibling is missing, ask the user to install the pack from
-[skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-or open the matching `skills/<name>/SKILL.md` in this repo.
-**Do not** run remote installers or package managers to fetch skills at runtime.
+If a sibling is missing, open the matching `skills/<name>/SKILL.md` already in this pack (or ask the user to install the full pack from the skills registry). Do not download or execute remote skill installers at runtime.
 
 ## Boot (every session)
 
