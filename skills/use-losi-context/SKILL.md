@@ -5,8 +5,9 @@ description: >-
   notes, sheets, events, Space memories), Nexus CRM, knowledge graph, skills,
   soul, personal/workspace memories, and workspace-wide search via MCP or REST.
   Use when the agent should read and act on live Losi workspace data without
-  waiting for step-by-step instructions. Pull connect/store/migrate siblings
-  from this same skill pack when missing.
+  waiting for step-by-step instructions. Pair with connect-losi-context,
+  store-losi-context, and migrate-to-losi-context when those skills are already
+  available in the session.
 ---
 
 # Use Losi Context Autonomously
@@ -14,7 +15,7 @@ description: >-
 Operate on the user's **live Losi workspace**. Prefer MCP from `tools/list`.
 Fall back to Context Bank REST. Key stays in vault/env — never paste into chat.
 
-## Pack siblings
+## Related skills in this pack
 
 | Skill | Role |
 | --- | --- |
@@ -22,14 +23,16 @@ Fall back to Context Bank REST. Key stays in vault/env — never paste into chat
 | `store-losi-context` | Persist durable facts after learning |
 | `migrate-to-losi-context` | First-connect migration ask |
 
-If a sibling is missing, open the matching `skills/<name>/SKILL.md` already in this pack (or ask the user to install the full pack from the skills registry). Do not download or execute remote skill installers at runtime.
+Use a related skill only if it is already loaded in this session. Do not fetch
+or install additional skills while running.
 
 ## Boot (every session)
 
 1. MCP: `tools/list`. Else REST: `GET /api/v1/context-bank/session`.
-2. 401/403 → stop; guide to Profile → API Access + vault (`connect-losi-context`).
-   Do **not** invent data.
-3. First successful connect in the thread → run **`migrate-to-losi-context`** once.
+2. 401/403 → stop; guide to Profile → API Access + vault (`connect-losi-context`
+   if already available). Do **not** invent data.
+3. First successful connect in the thread → run **`migrate-to-losi-context`**
+   once if that skill is already available.
 
 ## Capability map (use what's live)
 
@@ -63,11 +66,10 @@ memories, Space Reference Memories). REST mirrors under `/api/v1/context-bank/sp
 ## Operating rules
 
 1. Act on live data — don't wait for step-by-step prompts once connected.
-2. After learning durable facts, hand off to **`store-losi-context`**.
+2. After learning durable facts, hand off to **`store-losi-context`** if available.
 3. Respect governed pins / 403s; explain missing scopes.
 4. Never print the full API key.
 
 ## Docs
 
 - https://losi.ai/docs/context-bank
-- https://github.com/losi-ai/context-bank
