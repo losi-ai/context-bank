@@ -119,9 +119,9 @@ bash scripts/install-with-mcp.sh
 | Skill | Purpose |
 | --- | --- |
 | [`connect-losi-context`](skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; points agents at siblings |
-| [`use-losi-context`](skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
-| [`store-losi-context`](skills/store-losi-context/SKILL.md) | Autonomously write durable facts into the bank |
-| [`migrate-to-losi-context`](skills/migrate-to-losi-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
+| [`losi-use-context`](skills/losi-use-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
+| [`losi-store-context`](skills/losi-store-context/SKILL.md) | Autonomously write durable facts into the bank |
+| [`losi-migrate-context`](skills/losi-migrate-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
 
 `connect-losi-context` tells agents to load siblings from the same pack when
 missing (via skills.sh / local SKILL.md — not remote installers at runtime).

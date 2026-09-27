@@ -63,5 +63,5 @@ fi
 
 echo ""
 echo "Done. Set LOSI_API_KEY in your host vault/env, then restart MCP."
-echo "Skills: connect-losi-context, use-losi-context, store-losi-context, migrate-to-losi-context"
+echo "Skills: connect-losi-context, losi-use-context, losi-store-context, losi-migrate-context"
 echo "Docs:   https://losi.ai/docs/context-bank"

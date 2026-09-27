@@ -13,8 +13,8 @@ Context Bank and MCP.
 
 **Full agent skills (recommended):** install the pack from
 [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
-(`connect-losi-context`, `use-losi-context`, `store-losi-context`,
-`migrate-to-losi-context`). Wire MCP with the JSON in the docs — do not paste
+(`connect-losi-context`, `losi-use-context`, `losi-store-context`,
+`losi-migrate-context`). Wire MCP with the JSON in the docs — do not paste
 API keys into this prompt and do not ask the agent to run remote installers.
 
 ---

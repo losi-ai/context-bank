@@ -146,9 +146,9 @@ bash scripts/install-with-mcp.sh
 | Skill | Purpose |
 | --- | --- |
 | [`connect-losi-context`](../skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; load siblings when missing |
-| [`use-losi-context`](../skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
-| [`store-losi-context`](../skills/store-losi-context/SKILL.md) | Autonomously write durable facts back into the bank |
-| [`migrate-to-losi-context`](../skills/migrate-to-losi-context/SKILL.md) | On first use, ask whether to migrate local notes/prefs into Losi |
+| [`losi-use-context`](../skills/losi-use-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
+| [`losi-store-context`](../skills/losi-store-context/SKILL.md) | Autonomously write durable facts back into the bank |
+| [`losi-migrate-context`](../skills/losi-migrate-context/SKILL.md) | On first use, ask whether to migrate local notes/prefs into Losi |
 
 Pack: https://skills.sh/losi-ai/context-bank  
 

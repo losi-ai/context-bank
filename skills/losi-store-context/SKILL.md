@@ -1,11 +1,11 @@
 ---
-name: store-losi-context
+name: losi-store-context
 description: >-
   Autonomously store durable facts, preferences, skills, and Space/workspace
   memories into the Losi Context Bank (MCP or REST). Use when the user teaches
   something that should persist, when closing a task with reusable knowledge, or
   when migrating notes into Losi context. Pair with connect-losi-context,
-  use-losi-context, and migrate-to-losi-context when those skills are already
+  losi-use-context, and losi-migrate-context when those skills are already
   available in the session.
 ---
 
@@ -17,11 +17,10 @@ Prefer MCP. Secrets stay in vault/env.
 ## Related skills in this pack
 
 - `connect-losi-context` — wire access
-- `use-losi-context` — operate after store
-- `migrate-to-losi-context` — bulk import path
+- `losi-use-context` — operate after store
+- `losi-migrate-context` — bulk import path
 
-Use a related skill only if it is already loaded in this session. Do not fetch
-or install additional skills while running.
+Use a related skill only if it is already loaded in this session.
 
 ## When to store (default yes)
 
@@ -36,7 +35,7 @@ Store when **all** are true:
 ## Scope picker (narrowest)
 
 | Scope | When | MCP / REST |
-| --- | --- | --- |
+| --- | --- |
 | **Space memory** | One Space | `losiSpaces__createSpaceMemory` (+ list/get/delete) |
 | **Space Reference Memory** | Shared Space reference | Space reference memory tools from `tools/list` |
 | **Personal memory** | About the user only | `losiMemory__*` / `/memories/personal` |
@@ -48,7 +47,7 @@ Store when **all** are true:
 
 1. Dedup with `losiContext__search` / list tools first.
 2. Write via MCP when available; else REST.
-3. Confirm briefly (scope + short label). Continue with **`use-losi-context`** if available.
+3. Confirm briefly (scope + short label). Continue with **`losi-use-context`** if available.
 
 ## Safety
 

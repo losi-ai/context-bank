@@ -1,12 +1,12 @@
 ---
-name: use-losi-context
+name: losi-use-context
 description: >-
   Autonomously use the full Losi Context Bank once connected: Spaces (tasks,
   notes, sheets, events, Space memories), Nexus CRM, knowledge graph, skills,
   soul, personal/workspace memories, and workspace-wide search via MCP or REST.
   Use when the agent should read and act on live Losi workspace data without
   waiting for step-by-step instructions. Pair with connect-losi-context,
-  store-losi-context, and migrate-to-losi-context when those skills are already
+  losi-store-context, and losi-migrate-context when those skills are already
   available in the session.
 ---
 
@@ -20,18 +20,17 @@ Fall back to Context Bank REST. Key stays in vault/env — never paste into chat
 | Skill | Role |
 | --- | --- |
 | `connect-losi-context` | Wire MCP/REST if not connected |
-| `store-losi-context` | Persist durable facts after learning |
-| `migrate-to-losi-context` | First-connect migration ask |
+| `losi-store-context` | Persist durable facts after learning |
+| `losi-migrate-context` | First-connect migration ask |
 
-Use a related skill only if it is already loaded in this session. Do not fetch
-or install additional skills while running.
+Use a related skill only if it is already loaded in this session.
 
 ## Boot (every session)
 
 1. MCP: `tools/list`. Else REST: `GET /api/v1/context-bank/session`.
 2. 401/403 → stop; guide to Profile → API Access + vault (`connect-losi-context`
    if already available). Do **not** invent data.
-3. First successful connect in the thread → run **`migrate-to-losi-context`**
+3. First successful connect in the thread → run **`losi-migrate-context`**
    once if that skill is already available.
 
 ## Capability map (use what's live)
@@ -66,7 +65,7 @@ memories, Space Reference Memories). REST mirrors under `/api/v1/context-bank/sp
 ## Operating rules
 
 1. Act on live data — don't wait for step-by-step prompts once connected.
-2. After learning durable facts, hand off to **`store-losi-context`** if available.
+2. After learning durable facts, hand off to **`losi-store-context`** if available.
 3. Respect governed pins / 403s; explain missing scopes.
 4. Never print the full API key.
 
