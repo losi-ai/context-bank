@@ -6,7 +6,7 @@ description: >-
   Context Bank REST API. Use when the user wants Losi context in Claude, Cursor,
   ChatGPT, Codex, or another tool without writing SDK code. Prefer vault/env for
   the API key — never ask them to paste losi-… into chat. After connect, continue
-  with use-losi-context, store-losi-context, and migrate-to-losi-context when
+  with losi-use-context, losi-store-context, and losi-migrate-context when
   those skills are already available in the session.
 ---
 
@@ -19,12 +19,11 @@ losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul, and memories.
 
 | Skill | When |
 | --- | --- |
-| `migrate-to-losi-context` | First successful connect in a conversation |
-| `use-losi-context` | Read/act on live Spaces / Nexus / graph / memories / search |
-| `store-losi-context` | Persist durable facts, skills, Space/workspace memories |
+| `losi-migrate-context` | First successful connect in a conversation |
+| `losi-use-context` | Read/act on live Spaces / Nexus / graph / memories / search |
+| `losi-store-context` | Persist durable facts, skills, Space/workspace memories |
 
-Use a related skill only if it is already loaded in this session. Do not fetch
-or install additional skills while running.
+Use a related skill only if it is already loaded in this session.
 
 ## Prerequisites
 
@@ -127,8 +126,8 @@ Session check: `GET https://losi.ai/api/v1/context-bank/session` with
 ## After connect
 
 1. Verify `/session` or `tools/list`.
-2. If `migrate-to-losi-context` is already available, run it once.
-3. Operate with **`use-losi-context`** when available; persist with **`store-losi-context`** when available.
+2. If `losi-migrate-context` is already available, run it once.
+3. Operate with **`losi-use-context`** when available; persist with **`losi-store-context`** when available.
 4. Never print the full API key.
 5. On 401/403: guide to workspace-scoped key + vault — do not collect the key in chat.
 

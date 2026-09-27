@@ -7,9 +7,9 @@
       "description": "Connect any LLM or agent to live Losi workspace context (Spaces, CRM, graph, skills, memories, search) via MCP or the Context Bank API — then use, store, and migrate context autonomously. Pack: https://skills.sh/losi-ai/context-bank. Losi is free to get started.",
       "skills": [
         "connect-losi-context",
-        "use-losi-context",
-        "store-losi-context",
-        "migrate-to-losi-context"
+        "losi-use-context",
+        "losi-store-context",
+        "losi-migrate-context"
       ]
     }
   ]
