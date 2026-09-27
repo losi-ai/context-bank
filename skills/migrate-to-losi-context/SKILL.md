@@ -5,7 +5,8 @@ description: >-
   notes, prefs, and agent memory into the Losi context engine (Context Bank:
   personal/workspace/Space memories, skills, CRM). Use when connecting to Losi
   for the first time, importing from another tool, or when the user mentions
-  moving context into Losi. Pull connect/use/store siblings from this same skill pack when missing.
+  moving context into Losi. Pair with connect-losi-context, use-losi-context,
+  and store-losi-context when those skills are already available in the session.
 ---
 
 # Migrate to Losi Context Engine
@@ -14,13 +15,14 @@ On **first successful** Losi Context Bank / MCP connect in a conversation, ask
 once whether to migrate existing material into Losi. Keep it short. Stay
 autonomous after they answer.
 
-## Pack siblings
+## Related skills in this pack
 
 - `connect-losi-context` — wire MCP/REST
 - `use-losi-context` — operate after migrate
 - `store-losi-context` — write each migrated item
 
-If a sibling is missing, open the matching `skills/<name>/SKILL.md` already in this pack (or ask the user to install the full pack from the skills registry). Do not download or execute remote skill installers at runtime.
+Use a related skill only if it is already loaded in this session. Do not fetch
+or install additional skills while running.
 
 ## When to ask (once per conversation)
 
@@ -47,12 +49,13 @@ If they already have rich Losi data: “I’ll only add net-new facts — no dup
 1. Inventory candidates they pointed at (files, prefs, pasted docs). Do not scrape private stores without permission.
 2. Plan scopes: **personal** / **workspace** / **Space memory** / **Space Reference Memory** / **skill** / **Nexus**.
 3. One confirmation on the plan (bulk OK).
-4. Dedup with `losiContext__search` / memory lists, then execute via **`store-losi-context`**.
-5. Summarize counts by scope + notable ids. Continue with **`use-losi-context`**.
+4. Dedup with `losiContext__search` / memory lists, then execute via **`store-losi-context`** if available.
+5. Summarize counts by scope + notable ids. Continue with **`use-losi-context`** if available.
 
 ## If no / later
 
-Continue with `use-losi-context` on live Losi data only. They can say “migrate my notes into Losi” anytime.
+Continue with `use-losi-context` on live Losi data only when that skill is
+available. They can say “migrate my notes into Losi” anytime.
 
 ## What “context engine” means
 
@@ -70,4 +73,3 @@ across Claude, Cursor, Codex, and `@losi-ai/*`.
 ## Docs
 
 - https://losi.ai/docs/context-bank
-- https://github.com/losi-ai/context-bank

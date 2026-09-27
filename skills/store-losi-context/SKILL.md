@@ -4,7 +4,9 @@ description: >-
   Autonomously store durable facts, preferences, skills, and Space/workspace
   memories into the Losi Context Bank (MCP or REST). Use when the user teaches
   something that should persist, when closing a task with reusable knowledge, or
-  when migrating notes into Losi context. Pull connect/use/migrate siblings from this same skill pack when missing.
+  when migrating notes into Losi context. Pair with connect-losi-context,
+  use-losi-context, and migrate-to-losi-context when those skills are already
+  available in the session.
 ---
 
 # Store Losi Context Autonomously
@@ -12,13 +14,14 @@ description: >-
 Write into the user's Losi Context Bank so future sessions keep the knowledge.
 Prefer MCP. Secrets stay in vault/env.
 
-## Pack siblings
+## Related skills in this pack
 
 - `connect-losi-context` — wire access
 - `use-losi-context` — operate after store
 - `migrate-to-losi-context` — bulk import path
 
-If a sibling is missing, open the matching `skills/<name>/SKILL.md` already in this pack (or ask the user to install the full pack from the skills registry). Do not download or execute remote skill installers at runtime.
+Use a related skill only if it is already loaded in this session. Do not fetch
+or install additional skills while running.
 
 ## When to store (default yes)
 
@@ -45,7 +48,7 @@ Store when **all** are true:
 
 1. Dedup with `losiContext__search` / list tools first.
 2. Write via MCP when available; else REST.
-3. Confirm briefly (scope + short label). Continue with **`use-losi-context`**.
+3. Confirm briefly (scope + short label). Continue with **`use-losi-context`** if available.
 
 ## Safety
 
@@ -57,4 +60,3 @@ Store when **all** are true:
 ## Docs
 
 - https://losi.ai/docs/context-bank
-- https://github.com/losi-ai/context-bank

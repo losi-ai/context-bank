@@ -5,9 +5,9 @@ description: >-
   tasks/notes, knowledge graph, skills, soul, memories) via Losi MCP or the
   Context Bank REST API. Use when the user wants Losi context in Claude, Cursor,
   ChatGPT, Codex, or another tool without writing SDK code. Prefer vault/env for
-  the API key — never ask them to paste losi-… into chat. After connect, load
-  sibling skills use-losi-context, store-losi-context, and migrate-to-losi-context
-  from the same pack when missing.
+  the API key — never ask them to paste losi-… into chat. After connect, continue
+  with use-losi-context, store-losi-context, and migrate-to-losi-context when
+  those skills are already available in the session.
 ---
 
 # Connect Losi Context
@@ -15,10 +15,7 @@ description: >-
 Wire the current agent to the user's **live Losi workspace** (same data as
 losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul, and memories.
 
-## Full pack — sibling skills
-
-This skill is the **on-ramp**. Same pack ships three more — load them when the
-job needs them (do not wait for the user to name each one):
+## Related skills in this pack
 
 | Skill | When |
 | --- | --- |
@@ -26,10 +23,8 @@ job needs them (do not wait for the user to name each one):
 | `use-losi-context` | Read/act on live Spaces / Nexus / graph / memories / search |
 | `store-losi-context` | Persist durable facts, skills, Space/workspace memories |
 
-If a sibling is missing from the current agent, open the matching
-`skills/<name>/SKILL.md` already in this pack (or ask the user to install the
-full pack from the skills registry). Do not download or execute remote skill
-installers at runtime.
+Use a related skill only if it is already loaded in this session. Do not fetch
+or install additional skills while running.
 
 ## Prerequisites
 
@@ -132,15 +127,11 @@ Session check: `GET https://losi.ai/api/v1/context-bank/session` with
 ## After connect
 
 1. Verify `/session` or `tools/list`.
-2. If siblings missing → open their `skills/<name>/SKILL.md` in this pack
-   (or ask the user to install the full pack from the skills registry).
-3. Run **`migrate-to-losi-context`** once.
-4. Operate with **`use-losi-context`**; persist with **`store-losi-context`**.
-5. Never print the full API key.
-6. On 401/403: guide to workspace-scoped key + vault — do not collect the key in chat.
+2. If `migrate-to-losi-context` is already available, run it once.
+3. Operate with **`use-losi-context`** when available; persist with **`store-losi-context`** when available.
+4. Never print the full API key.
+5. On 401/403: guide to workspace-scoped key + vault — do not collect the key in chat.
 
 ## Docs
 
 - https://losi.ai/docs/context-bank
-- https://github.com/losi-ai/context-bank
-- https://www.npmjs.com/org/losi-ai
