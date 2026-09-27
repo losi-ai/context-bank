@@ -15,15 +15,16 @@ On **first successful** Losi Context Bank / MCP connect in a conversation, ask
 once whether to migrate existing material into Losi. Keep it short. Stay
 autonomous after they answer.
 
-## Pack siblings (pull if missing)
-
-```bash
-npx skills add losi-ai/context-bank --all
-```
+## Pack siblings
 
 - `connect-losi-context` — wire MCP/REST
 - `use-losi-context` — operate after migrate
 - `store-losi-context` — write each migrated item
+
+If a sibling is missing, ask the user to install the pack from
+[skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+or open the matching `skills/<name>/SKILL.md` in this repo.
+**Do not** run remote installers or package managers to fetch skills at runtime.
 
 ## When to ask (once per conversation)
 
@@ -69,3 +70,8 @@ across Claude, Cursor, Codex, and `@losi-ai/*`.
 - Prefer vault/env for `LOSI_API_KEY`.
 - Respect governed pins and missing permissions.
 - Don’t wipe existing Losi memories unless explicitly asked to replace.
+
+## Docs
+
+- https://losi.ai/docs/context-bank
+- https://github.com/losi-ai/context-bank

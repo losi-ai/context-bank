@@ -15,7 +15,7 @@ description: >-
 Wire the current agent to the user's **live Losi workspace** (same data as
 losi.ai): Spaces, Nexus CRM, knowledge graph, skills, soul, and memories.
 
-## Full pack — pull siblings autonomously
+## Full pack — sibling skills
 
 This skill is the **on-ramp**. Same pack ships three more — load them when the
 job needs them (do not wait for the user to name each one):
@@ -26,19 +26,11 @@ job needs them (do not wait for the user to name each one):
 | `use-losi-context` | Read/act on live Spaces / Nexus / graph / memories / search |
 | `store-losi-context` | Persist durable facts, skills, Space/workspace memories |
 
-If only this skill is installed:
-
-```bash
-npx skills add losi-ai/context-bank --all
-```
-
-Skills + MCP config:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
-```
-
-Pack: https://skills.sh/losi-ai/context-bank
+If a sibling is missing from the current agent, ask the user to install the
+full pack from [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+(or open the matching SKILL.md already in this repo under `skills/`).
+**Do not** run remote installers, `curl | bash`, or package managers to fetch
+skills at runtime.
 
 ## Prerequisites
 
@@ -135,6 +127,8 @@ Only call names returned by `tools/list`.
 
 CRM **writes**: MCP `losiNexus__run` or `POST /api/v1/nexus/tools` with `nexus:write`.
 
+Session check (key already in env — do not echo it):
+
 ```bash
 curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
@@ -143,7 +137,9 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
 ## After connect
 
 1. Verify `/session` or `tools/list`.
-2. If siblings missing → `npx skills add losi-ai/context-bank --all`.
+2. If siblings missing → point the user at
+   [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+   (do not run remote installers yourself).
 3. Run **`migrate-to-losi-context`** once.
 4. Operate with **`use-losi-context`**; persist with **`store-losi-context`**.
 5. Never print the full API key.

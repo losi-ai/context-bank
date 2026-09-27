@@ -83,11 +83,8 @@ Workspace comes from the key.
   `migrate`) — install where the agent supports skills (Cursor, Claude Code,
   Codex, …). They tell the model *how* to use MCP; they do not replace MCP.
 
-Bundle both where you can:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
-```
+Install skills from [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+and paste the MCP JSON above into your host — do not pipe remote install scripts into a shell.
 
 ### Raw JSON-RPC sketch
 
@@ -127,30 +124,28 @@ curl -sS 'https://losi.ai/api/v1/context-bank/spaces/tasks?limit=10' \
 
 ---
 
-## 3. Installable agent skills (+ MCP bundle)
+## 3. Installable agent skills (+ MCP)
 
 skills.sh installs **skills** (procedural agent knowledge). MCP registration is
-a separate host config. Prefer the **bundle installer** so both land together:
+a separate host config — paste the JSON from [§1 MCP](#1-mcp-recommended-for-agents).
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
-```
-
-What it does:
-
-1. `npx skills add losi-ai/context-bank --all` (all four skills below)
-2. Merges [`mcp/losi.mcp.json`](../mcp/losi.mcp.json) into `.cursor/mcp.json`
-   and `~/.cursor/mcp.json` (and Claude Code when available)
-
-Skills-only (no MCP write):
+Install the pack from the registry (run this yourself in a terminal — don't ask
+the agent to fetch remote installers at runtime):
 
 ```bash
 npx skills add losi-ai/context-bank --all
 ```
 
+Optional helper that also merges MCP config into Cursor/Claude:
+
+```bash
+bash scripts/install-with-mcp.sh
+# or clone the repo and run the script locally — avoid curl | bash when possible
+```
+
 | Skill | Purpose |
 | --- | --- |
-| [`connect-losi-context`](../skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; pull siblings when missing |
+| [`connect-losi-context`](../skills/connect-losi-context/SKILL.md) | Wire MCP/REST + vault key; load siblings when missing |
 | [`use-losi-context`](../skills/use-losi-context/SKILL.md) | Autonomously read Spaces / Nexus / graph / search / skills / soul / memories |
 | [`store-losi-context`](../skills/store-losi-context/SKILL.md) | Autonomously write durable facts back into the bank |
 | [`migrate-to-losi-context`](../skills/migrate-to-losi-context/SKILL.md) | On first use, ask whether to migrate local notes/prefs into Losi |
