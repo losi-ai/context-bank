@@ -11,10 +11,11 @@ keychain — never echo the key back.
 **Losi is free to get started** — a free account + API key is enough to try
 Context Bank and MCP.
 
-**Full agent skills (recommended):** `npx skills add losi-ai/context-bank --all`
-installs `connect-losi-context`, `use-losi-context`, `store-losi-context`, and
-`migrate-to-losi-context`. Skills + MCP:
-`curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash`
+**Full agent skills (recommended):** install the pack from
+[skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+(`connect-losi-context`, `use-losi-context`, `store-losi-context`,
+`migrate-to-losi-context`). Wire MCP with the JSON in the docs — do not paste
+API keys into this prompt and do not ask the agent to run remote installers.
 
 ---
 

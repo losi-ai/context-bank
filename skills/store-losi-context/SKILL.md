@@ -13,15 +13,16 @@ description: >-
 Write into the user's Losi Context Bank so future sessions keep the knowledge.
 Prefer MCP. Secrets stay in vault/env.
 
-## Pack siblings (pull if missing)
-
-```bash
-npx skills add losi-ai/context-bank --all
-```
+## Pack siblings
 
 - `connect-losi-context` — wire access
 - `use-losi-context` — operate after store
 - `migrate-to-losi-context` — bulk import path
+
+If a sibling is missing, ask the user to install the pack from
+[skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)
+or open the matching `skills/<name>/SKILL.md` in this repo.
+**Do not** run remote installers or package managers to fetch skills at runtime.
 
 ## When to store (default yes)
 
@@ -38,70 +39,26 @@ Store when **all** are true:
 | Scope | When | MCP / REST |
 | --- | --- | --- |
 | **Space memory** | One Space | `losiSpaces__createSpaceMemory` (+ list/get/delete) |
-| **Space Reference Memory** | Reference material for a Space | Space Reference Memory tools from `tools/list` |
-| **Workspace memory** | Shared across workspace | `losiMemory__createWorkspace` |
-| **Personal memory** | This user only | `losiMemory__createPersonal` |
-| **Skill** | Reusable multi-step procedure | `POST /skills` (run: `POST /skills/{id}/run`) |
-| **Nexus CRM** | Lead/contact/company truth | `losiNexus__run` (confirm mutations) |
-| **Space note / task** | Working artifact, not a memory | `losiSpaces__createSpaceNote` / task tools |
+| **Space Reference Memory** | Shared Space reference | Space reference memory tools from `tools/list` |
+| **Personal memory** | About the user only | `losiMemory__*` / `/memories/personal` |
+| **Workspace memory** | Team / company facts | `losiMemory__*` / `/memories/workspace` |
+| **Skill** | Reusable procedure | `POST /api/v1/context-bank/skills` |
+| **Nexus** | CRM truth | `losiNexus__run` with `nexus:write` |
 
-Unsure Space vs workspace memory → **ask once**, then remember preference for the session.
+## How to store
 
-Governed keys may pin `memoryScopes` (`personal` / `workspace` / `space` /
-`space_reference`) and `spaceIds` — on 403 explain the pin.
+1. Dedup with `losiContext__search` / list tools first.
+2. Write via MCP when available; else REST.
+3. Confirm briefly (scope + short label). Continue with **`use-losi-context`**.
 
-## How to write
+## Safety
 
-1. Confirm access (`tools/list` or `GET /session`).
-2. Dedup: `losiContext__search` / list recent memories for the same fact.
-3. Write smallest clear record (title + content, or skill steps).
-4. Return: scope, id, one-line summary.
-5. On 403: name the missing permission (`spaces:write`, `memories:*:write`, `nexus:write`) or governance pin.
+- Never paste API keys into chat or stored memory bodies.
+- Prefer vault/env for `LOSI_API_KEY`.
+- Respect governed pins and missing permissions.
+- Don't wipe existing memories unless explicitly asked to replace.
 
-### Examples
+## Docs
 
-**Workspace memory:**
-
-```json
-{
-  "name": "losiMemory__createWorkspace",
-  "arguments": {
-    "title": "Launch checklist owner",
-    "content": "Marsh owns release checklist; ping #launch before flipping prod."
-  }
-}
-```
-
-**Space memory:**
-
-```json
-{
-  "name": "losiSpaces__createSpaceMemory",
-  "arguments": {
-    "spaceId": "SPACE_UUID",
-    "content": "Design reviews happen Tuesdays; attach Figma link on the task.",
-    "memoryType": "general"
-  }
-}
-```
-
-**Skill (REST):**
-
-```bash
-curl -sS -X POST https://losi.ai/api/v1/context-bank/skills \
-  -H "Authorization: Bearer $LOSI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "weekly-status",
-    "description": "Draft a weekly status from open tasks",
-    "steps": [{ "type": "note", "text": "Summarize open high-priority tasks" }],
-    "parameters": []
-  }'
-```
-
-## Autonomy rules
-
-- Prefer **update** over duplicate create when an id exists.
-- Nexus sends / bulk mutations: ask, then `confirmed=true`.
-- Never echo the API key.
-- After store: optional next step (link task, run skill, continue with `use-losi-context`).
+- https://losi.ai/docs/context-bank
+- https://github.com/losi-ai/context-bank

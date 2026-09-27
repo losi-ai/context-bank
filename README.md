@@ -101,19 +101,19 @@ curl -sS https://losi.ai/api/v1/context-bank/session \
   -H "Authorization: Bearer $LOSI_API_KEY"
 ```
 
-### 3. Installable skills (+ MCP bundle)
+### 3. Installable skills (+ MCP)
 
-skills.sh does **not** register MCP servers by itself. One command for both:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/losi-ai/context-bank/main/scripts/install-with-mcp.sh | bash
-```
-
-Skills-only ([skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank)):
+Install skills from [skills.sh/losi-ai/context-bank](https://skills.sh/losi-ai/context-bank):
 
 ```bash
 npx skills add losi-ai/context-bank --all
 # or one: npx skills add losi-ai/context-bank --skill connect-losi-context
+```
+
+Optional local helper (clone the repo first) that also merges MCP config:
+
+```bash
+bash scripts/install-with-mcp.sh
 ```
 
 | Skill | Purpose |
@@ -123,7 +123,8 @@ npx skills add losi-ai/context-bank --all
 | [`store-losi-context`](skills/store-losi-context/SKILL.md) | Autonomously write durable facts into the bank |
 | [`migrate-to-losi-context`](skills/migrate-to-losi-context/SKILL.md) | First-use ask to migrate notes/prefs into the context engine |
 
-`connect-losi-context` tells agents to pull the other three when missing.
+`connect-losi-context` tells agents to load siblings from the same pack when
+missing (via skills.sh / local SKILL.md — not remote installers at runtime).
 MCP template: [`mcp/losi.mcp.json`](mcp/losi.mcp.json). Prefer vault/env for
 secrets — never paste a key into chat. **Losi is free to get started.**
 
